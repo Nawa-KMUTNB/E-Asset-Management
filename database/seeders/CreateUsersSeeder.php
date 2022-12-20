@@ -21,13 +21,21 @@ class CreateUsersSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'is_admin' => "1",
-                'password' => bcrypt('1234')
+                'password' => bcrypt('1234'),
+                'num_position' => '1234',
+                'position' => 'เจ้าหน้าที่พัสดุ',
+                'department' => 'พัสดุ',
+                'task' => 'งานพัสดุ'
             ],
             [
                 'name' => 'User',
                 'email' => 'user@gmail.com',
                 'is_admin' => "0",
-                'password' => bcrypt('1234')
+                'password' => bcrypt('1234'),
+                'num_position' => '2213',
+                'position' => 'ทดสอบ',
+                'department' => 'ทดสอบ',
+                'task' => 'ทดสอบ'
             ]
         ];
 
