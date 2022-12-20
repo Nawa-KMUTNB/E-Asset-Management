@@ -3,8 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DetailCRUDController;
+use App\Http\Controllers\CRController;
 
 Route::resource('companies', CRUDController::class);
+//Route::resource('companies', CRController::class);
+Route::resource('detail_companies', DetailCRUDController::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -17,7 +17,7 @@
             <div class="col-lg-12 text-center">
                 <h1>ข้อมูลครุภัณฑ์</h1>
             </div>
-            <div><a href="{{route('companies.create')}}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
+            <div class="mb-2"><a href="{{route('companies.create')}}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
         </div>
         @if ($message = Session::get('success'))
         <div class="alert alert-success">
@@ -27,6 +27,7 @@
 
         <table class="table table-bordered">
             <tr>
+                <th width="90px"></th>
                 <th>No.</th>
                 <th>หมายเลขครุภัณฑ์</th>
                 <th>ชื่อครุภัณฑ์</th>
@@ -39,7 +40,8 @@
                 <th width="220px">Action</th>
             </tr>
             @foreach($companies as $company)
-            <tr>
+                <tr>
+                <td><a href="{{ route('detail_companies.edit', $company->id) }}" class="text-primary">รายละเอียด</a></td>
                 <td>{{ $company->id }}</td>
                 <td>{{ $company->num_asset }}</td>
                 <td>{{ $company->name_asset }}</td>
@@ -55,11 +57,13 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>   
+                        
                     </form>
                 </td>
             </tr>
+            
             @endforeach
-        </table>
+            </table>
 
 {!! $companies->links('pagination::bootstrap-5') !!}
 

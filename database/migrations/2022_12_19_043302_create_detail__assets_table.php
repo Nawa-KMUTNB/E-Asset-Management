@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->renameColumn('name', 'num_asset');
-            $table->string('name_asset');
-            $table->renameColumn('email', 'propoty');
-            $table->longText('detail');
-            $table->renameColumn('address', 'unit');
-            $table->date('date_into');
-            $table->double('price', 10, 2);
-            $table->string('place');
-            $table->string("fullname");
+        Schema::create('detail__assets', function (Blueprint $table) {
+            $table->id();
+            $table->string("num_asset");
+            $table->string("name_asset");
+            $table->string("propoty");
+            $table->longText("detail");
+            $table->string("unit");
+            $table->string("date_into");
+            $table->double("price", 10, 2);
+            $table->string("place");
+            $table->string("name");
             $table->string("department");
             $table->string("name_info");
             $table->integer("code_money");
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->string("num_old_asset");
             $table->string('num_department');
             $table->double('per_price', 10, 2);
+            $table->timestamps();
         });
     }
 
@@ -43,7 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('companies', function (Blueprint $table) {
-        });
+        Schema::dropIfExists('detail__assets');
     }
 };

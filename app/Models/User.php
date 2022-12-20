@@ -21,7 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin'
+        'is_admin',
+        'num_position',
+        'position',
+        'department',
+        'task'
     ];
 
     /**
