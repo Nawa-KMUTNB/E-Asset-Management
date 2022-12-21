@@ -41,30 +41,27 @@
                 </tr>
 
                 <tr>
-
                     <td>
-                        <form action=" {{ route('detail_companies.update', $company->id) }}" method="POST"
-                            enctype="multipart/form-data">
+
+                        <form action="{{ route('detail_companies.update', ['detail_companies' => $company->id]) }}"
+                            method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group my-3">
-                                        <input type="text" name="num_asset" value="{{ $company->num_asset }}"
-                                            class="form-control" placeholder="Company Name" />
-                                        @error('num_asset')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                            <div class="col-md-12">
+                                <div class="form-group my-3">
+                                    <input type="text" name="num_asset" value="{{ $company->num_asset }}"
+                                        class="form-control" placeholder="Company Name" />
+                                    @error('num_asset')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
+                            </div>
                         </form>
                     </td>
-
                 </tr>
 
 
             </table>
-
 
 
         </div>
