@@ -19,8 +19,14 @@ class DetailCRUDController extends Controller
         //return view('detail_companies.detailIndex', compact('Detail_Asset'));
     }
 
-    public function edit(Company $company)
+    /*public function edit(Company $company)
     {
+        return view('companies.detail', compact('company'));
+    }*/
+
+    public function edit($id)
+    {
+        $company = Company::find($id);
         return view('companies.detail', compact('company'));
     }
 
@@ -35,17 +41,6 @@ class DetailCRUDController extends Controller
             'date_into' => 'required',
             'price' => 'required',
             'place' => 'required',
-            'fullname' => 'required',
-            'department' => 'required',
-            'name_info' => 'required',
-            'code_money' => 'required',
-            'name_money' => 'required',
-            'budget' => 'required',
-            'status_buy' => 'required',
-            'status_sell' => 'required',
-            'num_old_asset' => 'required',
-            'num_department' => 'required',
-            'per_price' => 'required'
         ]);
         $company = Company::find($id);
         $company->num_asset = $request->num_asset;
@@ -56,18 +51,35 @@ class DetailCRUDController extends Controller
         $company->date_into = $request->date_into;
         $company->price = $request->price;
         $company->place = $request->place;
-        $company->fullname = $request->fullname;
-        $company->department = $request->department;
-        $company->name_info = $request->name_info;
-        $company->code_money = $request->code_money;
-        $company->name_money = $request->name_money;
-        $company->budget = $request->budget;
-        $company->status_buy = $request->status_buy;
-        $company->status_sell = $request->status_sell;
-        $company->num_old_asset = $request->num_old_asset;
-        $company->num_department = $request->num_department;
-        $company->per_price = $request->per_price;
         $company->save();
         return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
+    }
+
+    public function create()
+    {
+        return view('companies.createdetail');
+    }
+
+    public function store(Request $request)
+    {
+        $detail_asset = new Detail_Asset;
+        $detail_asset->num_asset = $request->input('num_asset');
+        $detail_asset->date_into = $request->input('date_into');
+        $detail_asset->name_asset = $request->input('name_asset');
+        $detail_asset->detail = $request->input('detail');
+        $detail_asset->unit = $request->input('unit');
+        $detail_asset->place = $request->input('place');
+        $detail_asset->per_price = $request->input('per_price');
+        $detail_asset->status_buy = $request->input('status_buy');
+        $detail_asset->num_old_asset = $request->input('num_old_asset');
+        if ($request->hasFile('pic')) {
+            $file = $request->file('pic');
+            $extention = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extention;
+            $file->move('upload/companies/', $fileName);
+            $detail_asset->pic = $fileName;
+        }
+        $detail_asset->save();
+        return redirect()->route('companies.index')->with('success', 'เพิ่มครุภัณฑ์สำเร็จแล้ว');
     }
 }

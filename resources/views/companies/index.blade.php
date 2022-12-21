@@ -18,6 +18,8 @@
                 <div class="col-lg-12 text-center">
                     <h1>ข้อมูลครุภัณฑ์</h1>
                 </div>
+                <div class="mb2"><a href="{{ route('detail_companies.create') }}"
+                        class="btn btn-info">เพิ่มครุภัณฑ์รายละเอียด</a></div>
                 <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a>
                 </div>
             </div>
@@ -30,15 +32,17 @@
             <table class="table table-bordered">
                 <tr>
                     <th width="90px"></th>
-                    <th>No.</th>
+                    <th>ลำดับ</th>
                     <th>หมายเลขครุภัณฑ์</th>
+                    <th>วันที่รับเข้าคลัง</th>
                     <th>ชื่อครุภัณฑ์</th>
-                    <th>คุณสมบัติ</th>
                     <th>รายละเอียด</th>
                     <th>หน่วยนับ</th>
-                    <th>วันที่รับเข้าคลัง</th>
-                    <th>มูลค่าครุภัณฑ์</th>
-                    <th>ที่ตั้งครุภัณฑ์</th>
+                    <th>สถานที่ตั้ง</th>
+                    <th>ราคา/หน่วย</th>
+                    <th>สถานะ</th>
+                    <th>หมายเลขครุภัณฑ์เก่า</th>
+                    <th>รูปภาพ</th>
                     <th width="220px">Action</th>
                 </tr>
                 @foreach ($companies as $company)
@@ -48,13 +52,19 @@
                         </td>
                         <td>{{ $company->id }}</td>
                         <td>{{ $company->num_asset }}</td>
+                        <td>{{ $company->date_into }}</td>
                         <td>{{ $company->name_asset }}</td>
-                        <td>{{ $company->propoty }}</td>
                         <td>{{ $company->detail }}</td>
                         <td>{{ $company->unit }}</td>
-                        <td>{{ $company->date_into }}</td>
-                        <td>{{ $company->price }}</td>
                         <td>{{ $company->place }}</td>
+                        <td>{{ $company->per_price }}</td>
+                        <td>{{ $company->status_buy }}</td>
+                        <td>{{ $company->num_old_asset }}</td>
+                        <td>
+                            <img src="{{ asset('upload/companies/' . $company->pic) }}" width="150px" heigth="150px"
+                                alt="Image">
+
+                        </td>
                         <td>
                             <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
                                 <a href="{{ route('companies.edit', $company->id) }}"
