@@ -39,31 +39,29 @@
                     <th>ที่ตั้งครุภัณฑ์</th>
                     <th width="220px">Action</th>
                 </tr>
-                @foreach ($companies as $company)
-                    <tr>
-                        <td>{{ $company->id }}</td>
-                        <td>{{ $company->num_asset }}</td>
-                        <td>{{ $company->name_asset }}</td>
-                        <td>{{ $company->propoty }}</td>
-                        <td>{{ $company->detail }}</td>
-                        <td>{{ $company->unit }}</td>
-                        <td>{{ $company->date_into }}</td>
-                        <td>{{ $company->price }}</td>
-                        <td>{{ $company->place }}</td>
-                        <td>
-                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                <a href="{{ route('companies.edit', $company->id) }}"
-                                    class="btn btn-warning">แก้ไขครุภัณฑ์</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
 
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
+                <tr>
+                    <td>
+
+                        <form action="{{ route('detail_companies.update', ['detail_companies' => $company->id]) }}"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="col-md-12">
+                                <div class="form-group my-3">
+                                    <input type="text" name="num_asset" value="{{ $company->num_asset }}"
+                                        class="form-control" placeholder="Company Name" />
+                                    @error('num_asset')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+
+
             </table>
-
 
 
         </div>
