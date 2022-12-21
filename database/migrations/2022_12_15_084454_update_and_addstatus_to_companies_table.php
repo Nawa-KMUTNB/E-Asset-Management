@@ -33,6 +33,17 @@ return new class extends Migration
             $table->string("num_old_asset");
             $table->string('num_department');
             $table->double('per_price', 10, 2);
+            $table->string('pic');
+            $table->dropColumn('propoty');
+            $table->dropColumn('price');
+            $table->dropColumn('fullname');
+            $table->dropColumn('department');
+            $table->dropColumn('name_info');
+            $table->dropColumn('code_money');
+            $table->dropColumn('name_money');
+            $table->dropColumn('budget');
+            $table->dropColumn('status_sell');
+            $table->dropColumn('num_department');
         });
     }
 

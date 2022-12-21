@@ -30,34 +30,46 @@
             <table class="table table-bordered">
                 <tr>
                     <th>หมายเลขครุภัณฑ์</th>
+                    <th>วันที่รับเข้าคลัง</th>
                     <th>ชื่อครุภัณฑ์</th>
-                    <th>คุณสมบัติ</th>
                     <th>รายละเอียด</th>
                     <th>หน่วยนับ</th>
-                    <th>วันที่รับเข้าคลัง</th>
-                    <th>มูลค่าครุภัณฑ์</th>
-                    <th>ที่ตั้งครุภัณฑ์</th>
+                    <th>สถานที่ตั้ง</th>
+                    <th>ราคา/หน่วย</th>
+                    <th>สถานะ</th>
+                    <th>หมายเลขครุภัณฑ์เก่า</th>
+                    <th>รูปภาพ</th>
                     <th width="220px">Action</th>
                 </tr>
 
                 <tr>
-                    <td>
+                    <form action="{{ route('detail_companies.index', $company->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        <td>{{ $company->num_asset }}</td>
+                        <td>{{ $company->date_into }}</td>
+                        <td>{{ $company->name_asset }}</td>
+                        <td>{{ $company->detail }}</td>
+                        <td>{{ $company->unit }}</td>
+                        <td>{{ $company->place }}</td>
+                        <td>{{ $company->per_price }}</td>
+                        <td>{{ $company->status_buy }}</td>
+                        <td>{{ $company->num_old_asset }}</td>
+                        <td>
+                            <img src="{{ asset('upload/companies/' . $company->pic) }}" width="150px" heigth="150px"
+                                alt="Image">
 
-                        <form action="{{ route('detail_companies.update', ['detail_companies' => $company->id]) }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            <div class="col-md-12">
-                                <div class="form-group my-3">
-                                    <input type="text" name="num_asset" value="{{ $company->num_asset }}"
-                                        class="form-control" placeholder="Company Name" />
-                                    @error('num_asset')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </form>
-                    </td>
+                        </td>
+                        <td>
+                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                <a href="{{ route('companies.edit', $company->id) }}"
+                                    class="btn btn-warning">แก้ไขครุภัณฑ์</a>
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+
+                            </form>
+                        </td>
+                    </form>
                 </tr>
 
 
