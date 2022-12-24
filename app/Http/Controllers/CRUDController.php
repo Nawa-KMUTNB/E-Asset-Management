@@ -75,7 +75,8 @@ class CRUDController extends Controller
         //]); 
 
 
-        /* $company = new Company;
+        /* 
+        $company = new Company;
         $company->num_asset = $request->num_asset;
         $company->date_into = $request->date_into;
         $company->name_asset = $request->name_asset;
@@ -176,6 +177,8 @@ class CRUDController extends Controller
         $company->per_price = $request->input('per_price');
         $company->status_buy = $request->input('status_buy');
         $company->num_old_asset = $request->input('num_old_asset');
+
+
         if ($request->hasFile('pic')) {
             $destination = 'upload/companies/' . $company->pic;
             if (File::exists($destination)) {
@@ -187,6 +190,18 @@ class CRUDController extends Controller
             $file->move('upload/companies/', $fileName);
             $company->pic = $fileName;
         }
+
+
+        $company->fullname = $request->input('fullname');
+        $company->department = $request->input('department');
+        $company->name_info = $request->input('name_info');
+        $company->num_department = $request->input('num_department');
+
+        $company->code_money = $request->input('code_money');
+        $company->name_money = $request->input('name_money');
+        $company->budget = $request->input('budget');
+
+
         $company->update();
         return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
     }

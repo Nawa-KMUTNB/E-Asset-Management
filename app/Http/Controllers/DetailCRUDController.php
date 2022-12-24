@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Detail_Asset;
+use App\Models\Money;
 use Redirect;
 
 class DetailCRUDController extends Controller
@@ -23,6 +24,7 @@ class DetailCRUDController extends Controller
     {
         return view('companies.detail', compact('company'));
     }*/
+
 
     public function edit($id)
     {
@@ -57,7 +59,8 @@ class DetailCRUDController extends Controller
 
     public function create()
     {
-        return view('companies.createdetail');
+        $monies = Money::all();
+        return view('companies.createdetail', compact('monies'));
     }
 
     public function store(Request $request)
@@ -80,6 +83,7 @@ class DetailCRUDController extends Controller
             $detail_asset->pic = $fileName;
         }
         $detail_asset->save();
+
         return redirect()->route('companies.index')->with('success', 'เพิ่มครุภัณฑ์สำเร็จแล้ว');
     }
 }
