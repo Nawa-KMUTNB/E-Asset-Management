@@ -18,17 +18,36 @@
                 <div class="col-lg-12 text-center">
                     <h1>ข้อมูลครุภัณฑ์</h1>
                 </div>
-                <div class="mb2"><a href="{{ route('detail_companies.create') }}"
-                        class="btn btn-info">เพิ่มครุภัณฑ์รายละเอียด</a></div>
-                <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a>
-                </div>
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="mt-2 mb-2 "><a href="{{ route('user.index') }}"
+                                    class="btn btn-success">จัดการผู้ใช้งาน</a>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end "><a
+                                    href="{{ route('money.create') }}" class="btn btn-info">เพิ่มครุภัณฑ์</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+
+
+
+
+                <!--
+                                                                                                                                <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
+                                                                                                                                -->
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
                 </div>
             @endif
-
             <table class="table table-bordered">
                 <tr>
                     <th width="90px"></th>

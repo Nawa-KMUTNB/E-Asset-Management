@@ -44,7 +44,7 @@
             @foreach ($companies as $company)
                 <tr>
                     <td>
-                        <a href="{{ route('detail_companies.edit', $company->id) }}" class="text-primary">รายละเอียด</a>
+                        <a href="{{ route('member.edit', $company->id) }}" class="text-primary">รายละเอียด</a>
                     </td>
                     <td>{{ $company->id }}</td>
                     <td>{{ $company->num_asset }}</td>

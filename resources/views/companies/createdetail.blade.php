@@ -16,7 +16,7 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1>เพิ่มครุภัณฑ์รายละเอียด</h1>
+                <h1>เพิ่มครุภัณฑ์</h1>
             </div>
             <div><a href="{{ route('companies.index') }}" class="btn btn-warning">Back</a></div>
             @if (session('status'))
@@ -24,7 +24,9 @@
                     {{ sesssion('status') }}
                 </div>
             @endif
-            <form action=" {{ route('detail_companies.store') }}" method="POST" enctype="multipart/form-data">
+
+
+            <form action=" {{ route('money.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
@@ -61,7 +63,8 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>รายละเอียด</strong>
-                            <input type="text" name="detail" class="form-control" placeholder="รายละเอียด">
+                            <textarea name="detail" cols="30" rows="2" class="form-control" placeholder="รายละเอียด"></textarea>
+
                             @error('detail')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -121,18 +124,18 @@
                         </div>
                     </div>
 
-                    <!--
+
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>รูปภาพ</strong>
-                            <input type="file" name="pic" class="form-control" />
+                            <input type="file" name="pic" multiple class="form-control" />
                             @error('pic')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
-                
 
+                    <!--
 
                     <div class="col-md-12">
                         <div class="form-group my-3">
@@ -162,11 +165,11 @@
                             <strong>ฝ่ายที่ครอบครองครุภัณฑ์</strong> <br>
                             <select name="department">
                                 <option value="please select">โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
-                                <option value="leader">สำนักงานผู้อำนวยการ</option>
-                                <option value="reserch">ศูนย์รับองสมรรถนะบุคคล</option>
-                                <option value="service">ฝ่ายบริการวิชาการ</option>
-                                <option value="it">ฝ่ายพัฒนาระบบสารสนเทศ</option>
-                                <option value="eLearning">ฝ่ายสื่อการเรียนการสอน</option>
+                                <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
+                                <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
+                                <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
+                                <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
+                                <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
                             </select>
 
                             @error('department')
@@ -177,29 +180,44 @@
 
                     <div class="col-md-12">
                         <div class="form-group my-3">
+                            <strong>เลขอัตรา (เลขประจำตำแหน่ง)</strong>
+                            <input type="text" name="num_department" class="form-control"
+                                placeholder="เลขอัตรา (เลขประจำตำแหน่ง)" />
+                            @error('num_department')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="form-group my-3">
                             <strong>ชื่อ - สกุล ผู้นำเข้าคลัง</strong>
-                            <input type="text" name="name_info" class="form-control" value="นายนว  บุญญกนก"
-                                placeholder="ชื่อ - สกุล ผู้นำเข้าคลัง" />
+                            <input type="text" name="name_info" class="form-control"
+                                value="นางจารุดา วราภรณ์นิลอุบล" placeholder="ชื่อ - สกุล ผู้นำเข้าคลัง" />
                             @error('name_info')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
+
+                    <!---------------------------------------------------------------->
                     <div class="col-md-12">
                         <div class="form-group my-3">
-                            <strong>รหัสแหล่งเงิน</strong> <br>
+                            <strong>เลขแหล่งเงิน</strong> <br>
                             <select name="code_money">
-                                <option value="please select">โปรดเลือกรหัสแหล่งเงิน</option>
-                                <option value="">101010</option>
-                                <option value="">201030</option>
-                                <option value="">203010</option>
-                                <option value="">203090</option>
-                                <option value="">206010</option>
-                                <option value="">206031</option>
-                                <option value="">901010</option>
-                                <option value="">906011</option>
+                                <option value="please select">โปรดเลือกเลขแหล่งเงิน</option>
+                                <option value="101010">101010</option>
+                                <option value="201030">201030</option>
+                                <option value="203010">203010</option>
+                                <option value="203090">203090</option>
+                                <option value="206010">206010</option>
+                                <option value="206031">206031</option>
+                                <option value="901010">901010</option>
+                                <option value="906011">906011</option>
                             </select>
+
                             @error('code_money')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -208,9 +226,25 @@
 
                     <div class="col-md-12">
                         <div class="form-group my-3">
-                            <strong>ชื่อแหล่งเงิน</strong>
-                            <input type="text" name="name_money" class="form-control"
-                                placeholder="ชื่อแหล่งเงิน" />
+                            <strong>ชื่อแหล่งเงิน</strong> <br>
+                            <select name="name_money">
+                                <option value="please select">โปรดเลือกชื่อแหล่งเงิน</option>
+                                <option value="เงินงบประมาณแผ่นดิน-เงินจัดสรร">เงินงบประมาณแผ่นดิน-เงินจัดสรร</option>
+                                <option value="เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)">
+                                    เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)
+                                </option>
+                                <option value="เงินบริการวิชาการ (หน่วยงาน)">เงินบริการวิชาการ (หน่วยงาน)</option>
+                                <option value="เงินอื่นๆ (หน่วยงาน)">เงินอื่นๆ (หน่วยงาน)</option>
+                                <option value="เงินเหลือจ่าย (หน่วยงาน)">เงินเหลือจ่าย (หน่วยงาน)</option>
+                                <option value="เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)">
+                                    เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)
+                                </option>
+                                <option value="เงินจัดสรรโครงการพัฒนาสถาบันฯ">เงินจัดสรรโครงการพัฒนาสถาบันฯ</option>
+                                <option value="เงินเหลือจ่าย - เงินจัดสรรโครงการพัฒนาสถาบันฯ">
+                                    เงินเหลือจ่าย - เงินจัดสรรโครงการพัฒนาสถาบันฯ
+                                </option>
+                            </select>
+
                             @error('name_money')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -219,14 +253,29 @@
 
                     <div class="col-md-12">
                         <div class="form-group my-3">
-                            <strong>ปีงบประมาณ</strong>
-                            <input type="number" name="budget" class="form-control" placeholder="ปีงบประมาณ" />
+                            <strong>ปีงบประมาณ</strong> <br>
+                            <select name="budget">
+                                <option value="please select">โปรดเลือกปีงบประมาณ</option>
+                                <option value="2551">2551</option>
+                                <option value="2552">2552</option>
+                                <option value="2553">2553</option>
+                                <option value="2554">2554</option>
+                                <option value="2555">2555</option>
+                                <option value="2556">2556</option>
+                                <option value="2557">2557</option>
+                                <option value="2558">2558</option>
+                                <option value="2559">2559</option>
+                                <option value="2560">2560</option>
+                                <option value="2561">2561</option>
+                                <option value="2562">2562</option>
+                                <option value="2563">2563</option>
+                            </select>
                             @error('budget')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-
+                    <!---------------------------------------------------------------->
                     <!--
                     <div class="col-md-12">
                         <div class="form-group my-3">
@@ -240,16 +289,6 @@
                     </div>
                 -->
 
-                    <div class="col-md-12">
-                        <div class="form-group my-3">
-                            <strong>เลขอัตรา (เลขประจำตำแหน่ง)</strong>
-                            <input type="text" name="num_department" class="form-control"
-                                placeholder="เลขอัตรา (เลขประจำตำแหน่ง)" />
-                            @error('num_department')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
 
 
 

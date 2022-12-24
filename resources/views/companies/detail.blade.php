@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ข้อมูลครุภัณฑ์</title>
+    <title>รายละเอียดข้อมูลครุภัณฑ์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -39,7 +39,15 @@
                     <th>สถานะ</th>
                     <th>หมายเลขครุภัณฑ์เก่า</th>
                     <th>รูปภาพ</th>
-                    <th width="220px">Action</th>
+                    <th>ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์</th>
+                    <th>ฝ่ายที่ครอบครองครุภัณฑ์</th>
+                    <th>เลขอัตรา (เลขประจำตำแหน่ง)</th>
+                    <th>ชื่อ - สกุล ผู้นำเข้าคลัง</th>
+                    <th>เลขแหล่งเงิน</th>
+                    <th>ชื่อแหล่งเงิน</th>
+                    <th>ปีงบประมาณ</th>
+
+                    <!-- <th width="220px">Action</th>  -->
                 </tr>
 
                 <tr>
@@ -59,21 +67,39 @@
                                 alt="Image">
 
                         </td>
-                        <td>
-                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                <a href="{{ route('companies.edit', $company->id) }}"
-                                    class="btn btn-warning">แก้ไขครุภัณฑ์</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+                        <td>{{ $company->fullname }}</td>
+                        <td>{{ $company->department }}</td>
+                        <td>{{ $company->num_department }}</td>
+                        <td>{{ $company->name_info }}</td>
 
-                            </form>
-                        </td>
+
+                        <td>{{ $company->code_money }}</td>
+                        <td>{{ $company->name_money }}</td>
+                        <td>{{ $company->budget }}</td>
+
+
+                        <!--
+                                                                                                            <td>
+                                                                                                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                                                                                                <a href="{{ route('companies.edit', $company->id) }}"
+                                                                                                                    class="btn btn-warning">แก้ไขครุภัณฑ์</a>
+                                                                                                                @csrf
+                                                                                                                @method('DELETE')
+                                                                                                                <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+
+                                                                                                            </form>
+                                                                                                        </td>
+                                                                                                    -->
+
                     </form>
                 </tr>
 
 
             </table>
+
+            <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end "><a href=""
+                    class="btn btn-info">การเบิกครุภัณฑ์</a>
+            </div>
 
 
         </div>

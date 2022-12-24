@@ -124,7 +124,7 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>รูปภาพ</strong>
-                            <input type="file" name="pic" class="form-control" />
+                            <input type="file" name="pic" multiple class="form-control" />
                             @error('pic')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
