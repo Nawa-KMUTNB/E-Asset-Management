@@ -18,6 +18,6 @@ class MemberController extends Controller
     public function edit($id)
     {
         $company = Company::find($id);
-        return view('detail_companies.detail', compact('company'));
+        return view('detail.detail', compact('company'));
     }
 }

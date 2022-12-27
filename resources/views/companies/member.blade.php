@@ -18,6 +18,23 @@
                 <div class="col-lg-12 text-center">
                     <h1>ข้อมูลครุภัณฑ์</h1>
                 </div>
+
+                <form action="{{ route('web.finduser') }}" method="GET">
+
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" name="query" placeholder="Search here....."
+                            value="{{ request()->input('query') }}">
+                        <span class="text-danger">
+                            @error('query')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                        <button type="submit" class="btn btn-outline-primary">ค้นหา</button>
+                        <a href="{{ route('home') }}" class="btn btn-outline-danger">ล้างการค้นหา </a>
+
+                    </div>
+                </form>
+
             </div>
         </div>
         @if ($message = Session::get('success'))

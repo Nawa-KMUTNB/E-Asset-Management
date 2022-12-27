@@ -29,6 +29,7 @@ class HomeController extends Controller
         return view('companies.member', $data);
     }
 
+
     /**
      * Show the application dashboard.
      *

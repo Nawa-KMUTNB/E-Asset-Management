@@ -15,6 +15,12 @@ class BringController extends Controller
         return view('bring.index', $data);
     }
 
+    public function member()
+    {
+        $data['brings'] = Bring::orderBy('id', 'asc')->paginate(10);
+        return view('bring.member', $data);
+    }
+
     public function create()
     {
         $brings = Bring::all();
