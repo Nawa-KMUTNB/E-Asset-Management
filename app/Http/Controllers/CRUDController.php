@@ -222,4 +222,14 @@ class CRUDController extends Controller
         $company->delete();
         return redirect()->route('companies.index')->with('success', 'ลบครุภัณฑ์สำเร็จแล้ว');
     }
+
+    /* public function search(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $name = $request->get('name');
+            $company = Company::where('num_asset', 'LIKE', '%' . $name . '%')->paginate(10);
+        }
+        return view('companies.index', compact('company'));
+    }
+    */
 }

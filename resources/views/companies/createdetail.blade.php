@@ -18,7 +18,7 @@
             <div class="col-lg-12 text-center">
                 <h1>เพิ่มครุภัณฑ์</h1>
             </div>
-            <div><a href="{{ route('companies.index') }}" class="btn btn-warning">Back</a></div>
+            <div><a href="{{ route('companies.index') }}" class="btn btn-warning">ย้อนกลับ</a></div>
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ sesssion('status') }}
@@ -128,7 +128,7 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>รูปภาพ</strong>
-                            <input type="file" name="pic" multiple class="form-control" />
+                            <input type="file" name="pic" class="form-control" />
                             @error('pic')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -163,8 +163,8 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ฝ่ายที่ครอบครองครุภัณฑ์</strong> <br>
-                            <select name="department">
-                                <option value="please select">โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
+                            <select name="department" class="form-select">
+                                <option selected>โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
@@ -206,8 +206,8 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>เลขแหล่งเงิน</strong> <br>
-                            <select name="code_money">
-                                <option value="please select">โปรดเลือกเลขแหล่งเงิน</option>
+                            <select name="code_money" class="form-select">
+                                <option selected>โปรดเลือกเลขแหล่งเงิน</option>
                                 <option value="101010">101010</option>
                                 <option value="201030">201030</option>
                                 <option value="203010">203010</option>
@@ -227,8 +227,8 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ชื่อแหล่งเงิน</strong> <br>
-                            <select name="name_money">
-                                <option value="please select">โปรดเลือกชื่อแหล่งเงิน</option>
+                            <select name="name_money" class="form-select">
+                                <option selected>โปรดเลือกชื่อแหล่งเงิน</option>
                                 <option value="เงินงบประมาณแผ่นดิน-เงินจัดสรร">เงินงบประมาณแผ่นดิน-เงินจัดสรร</option>
                                 <option value="เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)">
                                     เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)
@@ -254,8 +254,8 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ปีงบประมาณ</strong> <br>
-                            <select name="budget">
-                                <option value="please select">โปรดเลือกปีงบประมาณ</option>
+                            <select name="budget" class="form-select">
+                                <option selected>โปรดเลือกปีงบประมาณ</option>
                                 <option value="2551">2551</option>
                                 <option value="2552">2552</option>
                                 <option value="2553">2553</option>
@@ -289,11 +289,8 @@
                     </div>
                 -->
 
-
-
-
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-success mt-2">Submit</button>
+                        <button type="submit" class="btn btn-success">ยืนยัน</button>
                     </div>
 
                 </div>
