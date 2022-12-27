@@ -19,15 +19,15 @@
                     <h1>จัดการผู้ใช้งาน</h1>
                 </div>
 
-                <div class="mt-2 mb-2 "><a href="{{ route('companies.index') }}" class="btn btn-warning">Back</a>
+                <div class="mt-2 mb-2 "><a href="{{ route('companies.index') }}" class="btn btn-warning">ย้อนกลับ</a>
                 </div>
 
 
 
 
                 <!--
-                                                                                                                                                                                                                                            <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
-                                                                                                                                                                                                                                            -->
+                                                                                                                                                                                                                                                <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
+                                                                                                                                                                                                                                                -->
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">

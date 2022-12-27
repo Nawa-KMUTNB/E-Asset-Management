@@ -22,12 +22,11 @@
                 <table>
                     <tr>
                         <td>
-                            <div class="mb-1"><a href="{{ route('companies.index') }}"
-                                    class="btn btn-warning">ย้อนกลับ</a></div>
+                            <div class="mb-1"><a href="{{ route('home') }}" class="btn btn-warning">ย้อนกลับ</a></div>
                         </td>
                         <td>
                             <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end ">
-                                <a href="{{ route('bring.index') }}" class="btn btn-info">การเบิกครุภัณฑ์</a>
+                                <a href="{{ route('member') }}" class="btn btn-info">การเบิกครุภัณฑ์</a>
                             </div>
                         </td>
                     </tr>
@@ -93,17 +92,17 @@
 
 
                         <!--
-                                                                                                                                                                    <td>
-                                                                                                                                                                    <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                                                                                                                                                        <a href="{{ route('companies.edit', $company->id) }}"
-                                                                                                                                                                            class="btn btn-warning">แก้ไขครุภัณฑ์</a>
-                                                                                                                                                                        @csrf
-                                                                                                                                                                        @method('DELETE')
-                                                                                                                                                                        <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                                                                                                                                                                    <a href="{{ route('companies.edit', $company->id) }}"
+                                                                                                                                                                                        class="btn btn-warning">แก้ไขครุภัณฑ์</a>
+                                                                                                                                                                                    @csrf
+                                                                                                                                                                                    @method('DELETE')
+                                                                                                                                                                                    <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
 
-                                                                                                                                                                    </form>
-                                                                                                                                                                </td>
-                                                                                                                                                            -->
+                                                                                                                                                                                </form>
+                                                                                                                                                                            </td>
+                                                                                                                                                                        -->
 
                     </form>
                 </tr>

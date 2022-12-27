@@ -15,7 +15,12 @@ Route::resource('companies', CRUDController::class);
 //  Route::get('/search', [CRUDController::class, 'search']);
 Route::get('/search', [SearchController::class, 'search'])->name('web.search');
 Route::get('/find', [SearchController::class, 'find'])->name('web.find');
-//Route::post('search-record', 'App\Http\Controllers\CRUDController@search');
+
+//การค้นหาหน้า Member
+Route::get('/finduser', [SearchController::class, 'finduser'])->name('web.finduser');
+Route::get('/searchMember', [SearchController::class, 'searchMember'])->name('web.searchMember');
+
+
 
 
 Route::resource('detail_companies', DetailCRUDController::class);
@@ -23,6 +28,9 @@ Route::resource('money', MoneyController::class);
 Route::resource('member', MemberController::class);
 Route::resource('user', ManageUserController::class);
 Route::resource('bring', BringController::class);
+
+
+Route::get('member', [BringController::class, 'member'])->name('member');
 
 /*
 |--------------------------------------------------------------------------
