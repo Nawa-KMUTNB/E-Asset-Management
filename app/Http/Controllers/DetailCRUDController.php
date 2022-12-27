@@ -75,12 +75,28 @@ class DetailCRUDController extends Controller
         $detail_asset->per_price = $request->input('per_price');
         $detail_asset->status_buy = $request->input('status_buy');
         $detail_asset->num_old_asset = $request->input('num_old_asset');
+
         if ($request->hasFile('pic')) {
-            $file = $request->file('pic');
+            $uploadFile = 'upload/companies/';
+
+            foreach ($request->file('pic') as $picFile) {
+                $extention = $picFile->getClientOriginalExtension();
+                $fileName = time() . '.' . $extention;
+                $picFile->move($uploadFile, $fileName);
+                $finalImageFile = $uploadFile . '-' . $fileName;
+                $detail_asset->pic->create([
+                    'pic' => $finalImageFile,
+                ]);
+            }
+
+
+            /*  
+          $file = $request->file('pic');
             $extention = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extention;
-            $file->move('upload/companies/', $fileName);
+            $file->move($uploadFile, $fileName);
             $detail_asset->pic = $fileName;
+            */
         }
         $detail_asset->save();
 

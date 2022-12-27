@@ -7,6 +7,8 @@ use App\Models\Money;
 use APP\Http\Requests\CompanyFormRequest;
 use App\Models\Company;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+
 
 class MoneyController extends Controller
 {
@@ -59,6 +61,7 @@ class MoneyController extends Controller
         $company->per_price = $request->input('per_price');
         $company->status_buy = $request->input('status_buy');
         $company->num_old_asset = $request->input('num_old_asset');
+
         if ($request->hasFile('pic')) {
             $file = $request->file('pic');
             $extention = $file->getClientOriginalExtension();
@@ -66,6 +69,8 @@ class MoneyController extends Controller
             $file->move('upload/companies/', $fileName);
             $company->pic = $fileName;
         }
+
+
         $company->fullname = $request->input('fullname');
         $company->department = $request->input('department');
         $company->name_info = $request->input('name_info');

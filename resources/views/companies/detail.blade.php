@@ -18,8 +18,22 @@
                 <div class="col-lg-12 text-center">
                     <h1>รายละเอียดข้อมูลครุภัณฑ์</h1>
                 </div>
-                <div class="mb-1"><a href="{{ route('companies.index') }}" class="btn btn-warning">Back</a></div>
-                <!-- <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div> -->
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="mb-1"><a href="{{ route('companies.index') }}"
+                                    class="btn btn-warning">ย้อนกลับ</a></div>
+                        </td>
+                        <td>
+                            <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end ">
+                                <a href="{{ route('bring.index') }}" class="btn btn-info">การเบิกครุภัณฑ์</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
@@ -79,28 +93,23 @@
 
 
                         <!--
-                                                                                                            <td>
-                                                                                                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                                                                                                <a href="{{ route('companies.edit', $company->id) }}"
-                                                                                                                    class="btn btn-warning">แก้ไขครุภัณฑ์</a>
-                                                                                                                @csrf
-                                                                                                                @method('DELETE')
-                                                                                                                <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+                                                                                                                                                                <td>
+                                                                                                                                                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                                                                                                                                                    <a href="{{ route('companies.edit', $company->id) }}"
+                                                                                                                                                                        class="btn btn-warning">แก้ไขครุภัณฑ์</a>
+                                                                                                                                                                    @csrf
+                                                                                                                                                                    @method('DELETE')
+                                                                                                                                                                    <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
 
-                                                                                                            </form>
-                                                                                                        </td>
-                                                                                                    -->
+                                                                                                                                                                </form>
+                                                                                                                                                            </td>
+                                                                                                                                                        -->
 
                     </form>
                 </tr>
 
 
             </table>
-
-            <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end "><a href=""
-                    class="btn btn-info">การเบิกครุภัณฑ์</a>
-            </div>
-
 
         </div>
     @endsection

@@ -1,20 +1,28 @@
 <?php
 
+use App\Http\Controllers\BringController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DetailCRUDController;
-use App\Http\Controllers\CRController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MoneyController;
+use App\Http\Controllers\SearchController;
 
 Route::resource('companies', CRUDController::class);
-//Route::resource('companies', CRController::class);
+
+//  Route::get('/search', [CRUDController::class, 'search']);
+Route::get('/search', [SearchController::class, 'search'])->name('web.search');
+Route::get('/find', [SearchController::class, 'find'])->name('web.find');
+//Route::post('search-record', 'App\Http\Controllers\CRUDController@search');
+
+
 Route::resource('detail_companies', DetailCRUDController::class);
 Route::resource('money', MoneyController::class);
 Route::resource('member', MemberController::class);
 Route::resource('user', ManageUserController::class);
+Route::resource('bring', BringController::class);
 
 /*
 |--------------------------------------------------------------------------
