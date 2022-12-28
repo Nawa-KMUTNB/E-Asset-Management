@@ -27,7 +27,7 @@ class SearchController extends Controller
         return view('bring.index', ['brings' => $brings]);
     }
 
-
+    //ค้นหาหน้าการเบิก member
     function searchMember(Request $request)
     {
         $request->validate([
@@ -66,7 +66,7 @@ class SearchController extends Controller
         return view('companies.index', ['companies' => $companies]);
     }
 
-    //การค้นหาหน้า Memebr
+    //การค้นหาหน้า Memebr หน้าหลัก
     function finduser(Request $request)
     {
         $request->validate([
