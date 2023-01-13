@@ -208,10 +208,11 @@
                         <div class="col-md-6">
                             <select name="code_money" id="code_money" class="form-control dynamic"
                                 data-dependent="name_money">
-                                <option selected>โปรดเลือกเลขแหล่งเงิน</option>
                                 @foreach ($cashes as $cashing)
                                     <option value="{{ $cashing->code_money }}">{{ $cashing->code_money }}</option>
                                 @endforeach
+
+                                <option selected>โปรดเลือกเลขแหล่งเงิน</option>
                             </select>
                         </div>
                         <div class="col-md-6">

@@ -41,8 +41,9 @@ class CRUDController extends Controller
             return redirect()->route('companies.edit')->with('success', 'Company not found');
         }*/
 
-        $cash = Cash::where('id', $id)->first();
+        $cash = Cash::find($id);
         if (!$cash) {
+
             return redirect()->route('companies.edit')->with('error', 'Cash not found');
         }
         $cashes = Cash::groupBy('code_money')->get();
@@ -50,7 +51,7 @@ class CRUDController extends Controller
             return redirect()->route('companies.edit')->with('error', 'Cash not found');
         }
 
-        return view('companies.edit', compact(['company', 'cashes', 'cash']));
+        return view('companies.edit', compact(['company', 'cash', 'cashes']));
 
         /*
         $company = Company::find($id);
