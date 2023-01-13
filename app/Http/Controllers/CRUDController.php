@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cash;
 use App\Models\Company;
+use App\Models\Money;
+use App\Models\Name_Money;
+use DB;
+use Error;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use LDAP\Result;
@@ -22,87 +27,6 @@ class CRUDController extends Controller
         return view('companies.create');
     }
 
-    //Store Resource
-    public function store(Request $request)
-    {
-        $company = new Company;
-        $company->num_asset = $request->input('num_asset');
-        $company->date_into = $request->input('date_into');
-        $company->name_asset = $request->input('name_asset');
-        $company->detail = $request->input('detail');
-        $company->unit = $request->input('unit');
-        $company->place = $request->input('place');
-        $company->per_price = $request->input('per_price');
-        $company->status_buy = $request->input('status_buy');
-        $company->num_old_asset = $request->input('num_old_asset');
-        if ($request->hasFile('pic')) {
-            $file = $request->file('pic');
-            $extention = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extention;
-            $file->move('upload/companies/', $fileName);
-            $company->pic = $fileName;
-        }
-        $company->save();
-
-
-
-        /*  $request->validate([
-            'num_asset' => 'required',
-            'date_into' => 'required',
-            'name_asset' => 'required',
-            'detail' => 'required',
-            'unit' => 'required',
-            'place' => 'required',
-            'per_price' => 'required',
-            'status_buy' => 'required',
-            'num_old_asset' => 'required'
-
-
-
-            /* 'propoty' => 'required',
-            'price' => 'required',
-            'place' => 'required',
-            'fullname' => 'required',
-            'department' => 'required',
-            'name_info' => 'required',
-            'code_money' => 'required',
-            'name_money' => 'required',
-            'budget' => 'required',
-            'status_sell' => 'required',
-            'num_department' => 'required', 
-            */
-
-        //]); 
-
-
-        /* 
-        $company = new Company;
-        $company->num_asset = $request->num_asset;
-        $company->date_into = $request->date_into;
-        $company->name_asset = $request->name_asset;
-        $company->detail = $request->detail;
-        $company->unit = $request->unit;
-        $company->place = $request->place;
-        $company->per_price = $request->per_price;
-        $company->status_buy = $request->status_buy;
-        $company->num_old_asset = $request->num_old_asset;
-        $company->pic = $request->pic;*/
-
-        /* $company->price = $request->price;
-        $company->fullname = $request->fullname;
-        $company->department = $request->department;
-        $company->name_info = $request->name_info;
-        $company->code_money = $request->code_money;
-        $company->name_money = $request->name_money;
-        $company->budget = $request->budget;
-        $company->status_sell = $request->status_sell;
-        $company->num_department = $request->num_department; 
-        $company->propoty = $request->property;
-        */
-        //$company->save();
-        return redirect()->route('companies.index')->with('success', 'เพิ่มครุภัณฑ์สำเร็จแล้ว');
-    }
-
 
     /*public function edit(Company $company)
     {
@@ -111,9 +35,32 @@ class CRUDController extends Controller
 
     public function edit($id)
     {
+
         $company = Company::find($id);
-        return view('companies.edit', compact('company'));
+        /*if (!$company) {
+            return redirect()->route('companies.edit')->with('success', 'Company not found');
+        }*/
+
+        $cash = Cash::where('id', $id)->first();
+        if (!$cash) {
+            return redirect()->route('companies.edit')->with('error', 'Cash not found');
+        }
+        $cashes = Cash::groupBy('code_money')->get();
+        if (!$cashes->count()) {
+            return redirect()->route('companies.edit')->with('error', 'Cash not found');
+        }
+
+        return view('companies.edit', compact(['company', 'cashes', 'cash']));
+
+        /*
+        $company = Company::find($id);
+        $cash = Cash::find($id)
+            ->groupBy('code_money')
+            ->get();
+        return view('companies.edit', compact(['company', 'cash']))->with('cash', $cash);
+        */
     }
+
 
     /* public function update(Request $request, $id)
     {
@@ -167,6 +114,7 @@ class CRUDController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $company = Company::find($id);
         $company->num_asset = $request->input('num_asset');
         $company->date_into = $request->input('date_into');
@@ -197,13 +145,32 @@ class CRUDController extends Controller
         $company->name_info = $request->input('name_info');
         $company->num_department = $request->input('num_department');
 
-        $company->code_money = $request->input('code_money');
-        $company->name_money = $request->input('name_money');
-        $company->budget = $request->input('budget');
 
+        $cash = Cash::where('id', $id)->update([
+            'code_money' => $request->input('code_money'),
+            'name_money' => $request->input('name_money'),
+            'budget' => $request->input('budget')
 
+        ]);
+
+        if ($cash > 0) {
+            // update was successful
+
+            return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
+        } else {
+            // update was unsuccessful
+            return redirect()->route('companies.index')->with('success', 'ไม่สามารถแก้ไขครุภัณฑ์ได้ กรุณากลับไปกดแก้ไขใหม่อีกรอบ');
+        }
+
+        /*
+        if ($cash != null) {
+            $company->code_money_id = $cash->id;
+            $company->name_money_id = $cash->id;
+            $company->budget = $cash->id;
+        }
+*/
         $company->update();
-        return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
+        return redirect()->route('companies.index', ['cash' => $cash])->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
     }
 
     /* public function destroy(Company $company)
@@ -219,6 +186,7 @@ class CRUDController extends Controller
         if (File::exists($destination)) {
             File::delete($destination);
         }
+
         $company->delete();
         return redirect()->route('companies.index')->with('success', 'ลบครุภัณฑ์สำเร็จแล้ว');
     }

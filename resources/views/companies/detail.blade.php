@@ -87,23 +87,23 @@
                         <td>{{ $company->name_info }}</td>
 
 
-                        <td>{{ $company->code_money }}</td>
-                        <td>{{ $company->name_money }}</td>
-                        <td>{{ $company->budget }}</td>
+                        <td>{{ $cash->code_money }}</td>
+                        <td>{{ $cash->name_money }}</td>
+                        <td>{{ $cash->budget }}</td>
 
 
                         <!--
-                                                                                                                                                                    <td>
-                                                                                                                                                                    <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                                                                                                                                                        <a href="{{ route('companies.edit', $company->id) }}"
-                                                                                                                                                                            class="btn btn-warning">แก้ไขครุภัณฑ์</a>
-                                                                                                                                                                        @csrf
-                                                                                                                                                                        @method('DELETE')
-                                                                                                                                                                        <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+                                                                                                                                                                                                <td>
+                                                                                                                                                                                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                                                                                                                                                                                    <a href="{{ route('companies.edit', $company->id) }}"
+                                                                                                                                                                                                        class="btn btn-warning">แก้ไขครุภัณฑ์</a>
+                                                                                                                                                                                                    @csrf
+                                                                                                                                                                                                    @method('DELETE')
+                                                                                                                                                                                                    <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
 
-                                                                                                                                                                    </form>
-                                                                                                                                                                </td>
-                                                                                                                                                            -->
+                                                                                                                                                                                                </form>
+                                                                                                                                                                                            </td>
+                                                                                                                                                                                        -->
 
                     </form>
                 </tr>
@@ -113,6 +113,7 @@
 
         </div>
     @endsection
+
 
 </body>
 

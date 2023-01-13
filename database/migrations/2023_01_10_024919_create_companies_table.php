@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('companies', function (Blueprint $table) {
-            $table->id();
-
+            $table->increments('id');
             $table->string('num_asset');
             $table->date('date_into');
             $table->string('name_asset');
@@ -30,9 +29,8 @@ return new class extends Migration
             $table->string("department");
             $table->string("name_info");
             $table->string('num_department');
-            $table->integer('code_money');
-            $table->string('name_money');
-            $table->integer('budget');
+
+
             $table->timestamps();
         });
     }
