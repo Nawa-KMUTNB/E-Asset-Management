@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cash;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Detail_Asset;
 use App\Models\Money;
 use Redirect;
+use DB;
 
 class DetailCRUDController extends Controller
 {
     public function index()
     {
         $data['companies'] = Company::orderBy('id', 'asc')->paginate(1);
-        return view('companies.detail', $data);
+        $cashes_list = DB::table('cashes')
+            ->groupBy('code_money')
+            ->get();
+
+        return view('companies.detail', $data)->with('cashes_list', $cashes_list);
 
 
         // return Redirect::to('companies.detail', $data)->withInput();
@@ -29,7 +35,8 @@ class DetailCRUDController extends Controller
     public function edit($id)
     {
         $company = Company::find($id);
-        return view('companies.detail', compact('company'));
+        $cash = Cash::find($id);
+        return view('companies.detail', compact(['company', 'cash']));
     }
 
     public function update(Request $request, $id)

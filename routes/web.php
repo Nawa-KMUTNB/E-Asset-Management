@@ -10,9 +10,12 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MoneyController;
 use App\Http\Controllers\SearchController;
 
+
+//หน้าแรก Admin
 Route::resource('companies', CRUDController::class);
 
-//  Route::get('/search', [CRUDController::class, 'search']);
+
+//การค้นหาหน้า Admin
 Route::get('/search', [SearchController::class, 'search'])->name('web.search');
 Route::get('/find', [SearchController::class, 'find'])->name('web.find');
 
@@ -32,16 +35,11 @@ Route::resource('bring', BringController::class);
 
 Route::get('member', [BringController::class, 'member'])->name('member');
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::post('createdetail/fetch', [MoneyController::class, 'fetch'])->name('dynamicdependent.fetch');
+Route::get('/createdetail', [MoneyController::class, 'index']);
+
+
+
 
 Route::get('/', function () {
     return view('auth/login');

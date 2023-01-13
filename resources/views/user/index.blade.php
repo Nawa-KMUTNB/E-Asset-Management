@@ -26,8 +26,8 @@
 
 
                 <!--
-                                                                                                                                                                                                                                                <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
-                                                                                                                                                                                                                                                -->
+                                                                                                                                                                                                                                                    <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
+                                                                                                                                                                                                                                                    -->
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
@@ -43,7 +43,6 @@
                     <th>ตำแหน่ง</th>
                     <th>ชื่อฝ่าย</th>
                     <th>ชื่องาน</th>
-                    <th>รหัสผ่าน</th>
                     <th width="220px">Action</th>
                 </tr>
                 @foreach ($user as $users)
@@ -55,7 +54,6 @@
                         <td>{{ $users->position }}</td>
                         <td>{{ $users->department }}</td>
                         <td>{{ $users->task }}</td>
-                        <td><input type="password" value="{{ $users->password }}" width="200px"></td>
                         <td>
                             <form action="{{ route('user.destroy', $users->id) }}" method="POST">
                                 <a href="{{ route('user.edit', $users->id) }}" class="btn btn-warning">แก้ไขผู้ใช้งาน</a>

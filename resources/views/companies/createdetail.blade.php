@@ -203,11 +203,17 @@
 
 
                     <!---------------------------------------------------------------->
+
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>เลขแหล่งเงิน</strong> <br>
-                            <select name="code_money" class="form-select">
+                            <select name="code_money" id="code_money" class="form-control dynamic"
+                                data-dependent="name_money">
                                 <option selected>โปรดเลือกเลขแหล่งเงิน</option>
+                                @foreach ($cashes_list as $cash)
+                                    <option value="{{ $cash->code_money }}">{{ $cash->code_money }}</option>
+                                @endforeach
+                                <!--
                                 <option value="101010">101010</option>
                                 <option value="201030">201030</option>
                                 <option value="203010">203010</option>
@@ -216,6 +222,7 @@
                                 <option value="206031">206031</option>
                                 <option value="901010">901010</option>
                                 <option value="906011">906011</option>
+                                -->
                             </select>
 
                             @error('code_money')
@@ -227,7 +234,12 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ชื่อแหล่งเงิน</strong> <br>
-                            <select name="name_money" class="form-select">
+
+                            <select name="name_money" id="name_money" class="form-control dynamic"
+                                data-dependent="budget">
+                                <option value="">โปรดเลือกชื่อแหล่งเงิน</option>
+
+                                <!--
                                 <option selected>โปรดเลือกชื่อแหล่งเงิน</option>
                                 <option value="เงินงบประมาณแผ่นดิน-เงินจัดสรร">เงินงบประมาณแผ่นดิน-เงินจัดสรร</option>
                                 <option value="เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)">
@@ -243,6 +255,7 @@
                                 <option value="เงินเหลือจ่าย - เงินจัดสรรโครงการพัฒนาสถาบันฯ">
                                     เงินเหลือจ่าย - เงินจัดสรรโครงการพัฒนาสถาบันฯ
                                 </option>
+                            -->
                             </select>
 
                             @error('name_money')
@@ -254,8 +267,9 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ปีงบประมาณ</strong> <br>
-                            <select name="budget" class="form-select">
-                                <option selected>โปรดเลือกปีงบประมาณ</option>
+                            <select name="budget" class="form-control" id="budget">
+                                <option value="">โปรดเลือกปีงบประมาณ</option>
+                                <!--
                                 <option value="2551">2551</option>
                                 <option value="2552">2552</option>
                                 <option value="2553">2553</option>
@@ -269,25 +283,13 @@
                                 <option value="2561">2561</option>
                                 <option value="2562">2562</option>
                                 <option value="2563">2563</option>
+                                -->
                             </select>
                             @error('budget')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <!---------------------------------------------------------------->
-                    <!--
-                    <div class="col-md-12">
-                        <div class="form-group my-3">
-                            <strong>สถานะ (จำหน่าย, ออกภายนอก)</strong>
-                            <input type="text" name="status_sell" value="-" class="form-control"
-                                placeholder="สถานะ (จำหน่าย, ออกภายนอก)" />
-                            @error('status_sell')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
-                        </div>
-                    </div>
-                -->
 
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-success">ยืนยัน</button>
@@ -298,6 +300,49 @@
 
         </div>
     </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('.dynamic').change(function() {
+                if ($(this).val() != '') {
+                    var select = $(this).attr("id");
+                    var value = $(this).val();
+                    var dependent = $(this).data('dependent');
+                    var _token = $('input[name="_token"]').val();
+                    $.ajax({
+                        url: "{{ route('dynamicdependent.fetch') }}",
+                        method: "POST",
+                        data: {
+                            select: select,
+                            value: value,
+                            _token: _token,
+                            dependent: dependent
+                        },
+                        success: function(result) {
+                            $('#' + dependent).html(result);
+                        }
+
+                    })
+                }
+            });
+
+            $('#code_money').change(function() {
+                $('#name_money').val('');
+                $('#budget').val('');
+            });
+
+            $('#name_money').change(function() {
+                $('#budget').val('');
+            });
+
+
+        });
+    </script>
+
+
 </body>
 
 </html>

@@ -25,8 +25,17 @@ class Company extends Model
         "department",
         "name_info",
         "num_department",
-        "code_money",
-        "name_money",
         "budget"
+
+        /* 
+                "code_money",
+        "name_money",
+
+        */
     ];
+
+    public function cash()
+    {
+        return $this->belongsTo(Cash::class, 'code_money_id');
+    }
 }

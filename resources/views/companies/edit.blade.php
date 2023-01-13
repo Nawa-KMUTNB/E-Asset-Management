@@ -63,18 +63,6 @@
                     </div>
 
 
-                    <!--
-    <div class="col-md-12">
-        <div class="form-group my-3">
-            <strong>คุณสมบัติ</strong>
-            <input type="text" name="propoty" value="{{ $company->propoty }}" class="form-control" placeholder="Company Address" />
-            @error('propoty')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
-        </div>
-    </div>
--->
-
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>รายละเอียด</strong>
@@ -158,20 +146,6 @@
                         </div>
                     </div>
 
-                    <!--
-
-                    <div class="col-md-12">
-                        <div class="form-group my-3">
-                            <strong>มูลค่าครุภัณฑ์</strong>
-                            <input type="number" name="price" class="form-control" placeholder="มูลค่าครุภัณฑ์" />
-                            @error('price')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
-                        </div>
-                    </div>
--->
-
-
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์</strong>
@@ -232,23 +206,17 @@
                     <div class="row g-2">
                         <strong>เลขแหล่งเงิน</strong> <br>
                         <div class="col-md-6">
-                            <select name="code_money" class="form-select">
+                            <select name="code_money" id="code_money" class="form-control dynamic"
+                                data-dependent="name_money">
                                 <option selected>โปรดเลือกเลขแหล่งเงิน</option>
-                                <option value="101010">101010</option>
-                                <option value="201030">201030</option>
-                                <option value="203010">203010</option>
-                                <option value="203090">203090</option>
-                                <option value="206010">206010</option>
-                                <option value="206031">206031</option>
-                                <option value="901010">901010</option>
-                                <option value="906011">906011</option>
+                                @foreach ($cashes as $cashing)
+                                    <option value="{{ $cashing->code_money }}">{{ $cashing->code_money }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="code_money" class="form-control" disabled
-                                value="{{ $company->code_money }}">
-
-
+                                value="{{ $cash->code_money }}">
                             @error('code_money')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -258,26 +226,14 @@
                     <div class="row g-2">
                         <strong>ชื่อแหล่งเงิน</strong> <br>
                         <div class="col-md-6">
-                            <select name="name_money" class="form-select">
-                                <option selected>โปรดเลือกชื่อแหล่งเงิน</option>
-                                <option value="เงินงบประมาณแผ่นดิน-เงินจัดสรร">เงินงบประมาณแผ่นดิน-เงินจัดสรร</option>
-                                <option value="เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)">
-                                    เงินจัดสรรงานบริการวิชาการ (หน่วยงาน)
-                                </option>
-                                <option value="เงินบริการวิชาการ (หน่วยงาน)">เงินบริการวิชาการ (หน่วยงาน)</option>
-                                <option value="เงินอื่นๆ (หน่วยงาน)">เงินอื่นๆ (หน่วยงาน)</option>
-                                <option value="เงินเหลือจ่าย (หน่วยงาน)">เงินเหลือจ่าย (หน่วยงาน)</option>
-                                <option value="เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)">
-                                    เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)</option>
-                                <option value="เงินจัดสรรโครงการพัฒนาสถาบันฯ">เงินจัดสรรโครงการพัฒนาสถาบันฯ</option>
-                                <option value="เงินเหลือจ่าย - เงินจัดสรรโครงการพัฒนาสถาบันฯ">
-                                    เงินเหลือจ่าย - เงินจัดสรรโครงการพัฒนาสถาบันฯ
-                                </option>
+                            <select name="name_money" id="name_money" class="form-control dynamic"
+                                data-dependent="budget">
+                                <option value="">โปรดเลือกชื่อแหล่งเงิน</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="name_money" class="form-control" disabled
-                                value="{{ $company->name_money }}">
+                                value="{{ $cash->name_money }}">
 
 
 
@@ -290,27 +246,14 @@
                     <div class="row g-2">
                         <strong>ปีงบประมาณ</strong> <br>
                         <div class="col-md-6">
-                            <select name="budget" class="form-select">
-                                <option selected>โปรดเลือกปีงบประมาณ</option>
-                                <option value="2551">2551</option>
-                                <option value="2552">2552</option>
-                                <option value="2553">2553</option>
-                                <option value="2554">2554</option>
-                                <option value="2555">2555</option>
-                                <option value="2556">2556</option>
-                                <option value="2557">2557</option>
-                                <option value="2558">2558</option>
-                                <option value="2559">2559</option>
-                                <option value="2560">2560</option>
-                                <option value="2561">2561</option>
-                                <option value="2562">2562</option>
-                                <option value="2563">2563</option>
+                            <select name="budget" class="form-control" id="budget">
+                                <option value="">โปรดเลือกปีงบประมาณ</option>
                             </select>
                         </div>
                         <div class="col-md-6">
 
                             <input type="text" name="budget" class="form-control" disabled
-                                value="{{ $company->budget }}">
+                                value="{{ $cash->budget }}">
 
 
 
@@ -319,21 +262,6 @@
                             @enderror
                         </div>
                     </div>
-                    <!---------------------------------------------------------------->
-                    <!--
-                    <div class="col-md-12">
-                        <div class="form-group my-3">
-                            <strong>สถานะ (จำหน่าย, ออกภายนอก)</strong>
-                            <input type="text" name="status_sell" value="-" class="form-control"
-                                placeholder="สถานะ (จำหน่าย, ออกภายนอก)" />
-                            @error('status_sell')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
-                        </div>
-                    </div>
-                -->
-
-
 
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-success mt-2">ยืนยัน</button>
@@ -344,6 +272,49 @@
 
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('.dynamic').change(function() {
+                if ($(this).val() != '') {
+                    var select = $(this).attr("id");
+                    var value = $(this).val();
+                    var dependent = $(this).data('dependent');
+                    var _token = $('input[name="_token"]').val();
+                    $.ajax({
+                        url: "{{ route('dynamicdependent.fetch') }}",
+                        method: "POST",
+                        data: {
+                            select: select,
+                            value: value,
+                            _token: _token,
+                            dependent: dependent
+                        },
+                        success: function(result) {
+                            $('#' + dependent).html(result);
+                        }
+
+                    })
+                }
+            });
+
+            $('#code_money').change(function() {
+                $('#name_money').val('');
+                $('#budget').val('');
+            });
+
+            $('#name_money').change(function() {
+                $('#budget').val('');
+            });
+
+
+        });
+    </script>
+
+
+
 </body>
 
 </html>

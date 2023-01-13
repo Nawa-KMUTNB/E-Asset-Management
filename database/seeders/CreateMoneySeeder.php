@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Money;
@@ -16,7 +17,7 @@ class CreateMoneySeeder extends Seeder
     public function run()
     {
         //
-        $money = [
+        $cashes = [
             [
                 'code_money' => '101010',
                 'name_money' => 'เงินงบประมาณแผ่นดิน-เงินจัดสรร',
@@ -62,6 +63,7 @@ class CreateMoneySeeder extends Seeder
                 'name_money' => 'เงินงบประมาณแผ่นดิน-เงินจัดสรร',
                 'budget' => '2563'
             ],
+
 
             // เงินจัดสรรงานบริการวิชาการ (หน่วยงาน) รหัส 201030
             [
@@ -100,7 +102,9 @@ class CreateMoneySeeder extends Seeder
                 'budget' => '2563'
             ],
 
-            // เงินบริการวิชาการ (หน่วยงาน) รหัส 203010
+
+
+            //เงินบริการวิชาการ (หน่วยงาน) รหัส 203010
             [
                 'code_money' => '203010',
                 'name_money' => 'เงินบริการวิชาการ (หน่วยงาน)',
@@ -121,6 +125,7 @@ class CreateMoneySeeder extends Seeder
                 'name_money' => 'เงินบริการวิชาการ (หน่วยงาน)',
                 'budget' => '2563'
             ],
+
 
             // เงินอื่นๆ (หน่วยงาน) รหัส 203090
             [
@@ -143,7 +148,6 @@ class CreateMoneySeeder extends Seeder
                 'name_money' => 'เงินอื่นๆ (หน่วยงาน)',
                 'budget' => '2562'
             ],
-
 
             // เงินเหลือจ่าย (หน่วยงาน) รหัส 206010
             [
@@ -181,25 +185,24 @@ class CreateMoneySeeder extends Seeder
             // เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน) รหัส 206031
             [
                 'code_money' => '206031',
-                'name_money' => 'เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)',
+                'name_money' => 'เงินเหลือจ่าย - เงินบริการวิชาการ (หน่วยงาน)',
                 'budget' => '2559'
             ],
             [
                 'code_money' => '206031',
-                'name_money' => 'เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)',
+                'name_money' => 'เงินเหลือจ่าย - เงินบริการวิชาการ (หน่วยงาน)',
                 'budget' => '2560'
             ],
             [
                 'code_money' => '206031',
-                'name_money' => 'เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)',
+                'name_money' => 'เงินเหลือจ่าย - เงินบริการวิชาการ (หน่วยงาน)',
                 'budget' => '2562'
             ],
             [
                 'code_money' => '206031',
-                'name_money' => 'เงินเหลือจ่าย-เงินบริการวิชาการ (หน่วยงาน)',
+                'name_money' => 'เงินเหลือจ่าย - เงินบริการวิชาการ (หน่วยงาน)',
                 'budget' => '2563'
             ],
-
 
             // เงินจัดสรรโครงการพัฒนาสถาบันฯ รหัส 901010
             [
@@ -217,8 +220,8 @@ class CreateMoneySeeder extends Seeder
 
         ];
 
-        foreach ($money as $key => $value) {
-            Money::create($value);
+        foreach ($cashes as $key => $value) {
+            Cash::create($value);
         }
     }
 }
