@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Money;
 use APP\Http\Requests\CompanyFormRequest;
 use App\Models\Cash;
+use App\Models\Chips;
 use App\Models\Company;
+use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use DB;
@@ -41,103 +43,76 @@ class MoneyController extends Controller
         echo $output;
     }
 
-
-
-    /*
-    public function store(CompanyFormRequest $requset)
-    {
-        $validatedData = $requset->validated();
-
-        $money = Money::findOrFail($validatedData['money_id']);
-
-        $company = $money->company()->create([
-            'money_id' => $validatedData['money_id'],
-            'num_asset' => $validatedData['num_asset'],
-            'date_into' => $validatedData['date_into'],
-            'name_asset' => $validatedData['name_asset'],
-            'detail' => Str::detail($validatedData['detail']),
-            'unit' => $validatedData['unit'],
-            'place' => $validatedData['place'],
-            'per_price' => $validatedData['per_price'],
-            'status_buy' => $validatedData['status_buy'],
-            'num_old_asset' => $validatedData['num_old_asset'],
-            'pic' => $validatedData['pic'],
-            'fullname' => $validatedData['fullname'],
-            'department' => $validatedData['department'],
-            'name_info' => $validatedData['name_info'],
-            'num_department' => $validatedData['num_department'],
-        ]);
-        return $company->id;
-    }
-
-    */
-
-
     public function store(Request $request)
     {
-        /*
-        $company = new Company;
-        $company->num_asset = $request->input('num_asset');
-        $company->date_into = $request->input('date_into');
-        $company->name_asset = $request->input('name_asset');
-        $company->detail = $request->input('detail');
-        $company->unit = $request->input('unit');
-        $company->place = $request->input('place');
-        $company->per_price = $request->input('per_price');
-        $company->status_buy = $request->input('status_buy');
-        $company->num_old_asset = $request->input('num_old_asset');
 
-        if ($request->hasFile('pic')) {
-            $file = $request->file('pic');
-            $extention = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extention;
-            $file->move('upload/companies/', $fileName);
-            $company->pic = $fileName;
+
+        $request->validate([
+            'cover' => 'mimes:jpeg,jpg,png|max:2048',
+            'images.*' => 'mimes:jpeg,jpg,png|max:2048',
+            'num_asset' => 'required|string|regex:/^\d{12}-\d{5}-\d{5}$/',
+            'date_into' => 'required|date',
+            'name_asset' => 'required|string|max:255',
+            'detail' => 'required|string|max:255',
+            'unit' =>   'required|string|max:60',
+            'place' => 'required|string|max:255',
+            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
+            'status_buy' => 'required|string|max:255',
+            //'num_old_asset' => 'required|string|regex:/^\d{3}(\-)\d{2}(\-)\d{1}(\-)(\d{1}\/\d{5})$/',
+            'num_old_asset' => 'required|string|max:255',
+            'fullname' => 'required|string|max:255',
+            'department' => 'sometimes|required|string',
+            'name_info' => 'required|string|max:255',
+            'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
+        ]);
+
+
+
+        if ($request->hasFile("cover")) {
+            $file = $request->file("cover");
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path("cover/"), $imageName);
+
+            $company = new Company;
+            $cash = new Chips;
+
+            $cash->code_money = $request->input('code_money');
+            $cash->name_money = $request->input('name_money');
+            $cash->budget = $request->input('budget');
+            $cash->save();
+
+            $company->num_asset = $request->input('num_asset');
+            $company->date_into = $request->input('date_into');
+            $company->name_asset = $request->input('name_asset');
+            $company->detail = $request->input('detail');
+            $company->unit = $request->input('unit');
+            $company->place = $request->input('place');
+            $company->per_price = $request->input('per_price');
+            $company->status_buy = $request->input('status_buy');
+            $company->num_old_asset = $request->input('num_old_asset');
+            $company->fullname = $request->input('fullname');
+            $company->department = $request->input('department');
+            $company->name_info = $request->input('name_info');
+            $company->num_department = $request->input('num_department');
+            $company->cover = $imageName;
+
+
+            $company->code_money_id = $cash->id;
+            $company->name_money_id = $cash->id;
+            $company->budget = $cash->id;
+            $company->save();
         }
 
-
-        $company->fullname = $request->input('fullname');
-        $company->department = $request->input('department');
-        $company->name_info = $request->input('name_info');
-        $company->num_department = $request->input('num_department');
-        $company->save();
-        */
-
-        $cash = new Cash;
-        $cash->code_money = $request->input('code_money');
-        $cash->name_money = $request->input('name_money');
-        $cash->budget = $request->input('budget');
-        $cash->save();
-
-        $company = new Company;
-        $company->num_asset = $request->input('num_asset');
-        $company->date_into = $request->input('date_into');
-        $company->name_asset = $request->input('name_asset');
-        $company->detail = $request->input('detail');
-        $company->unit = $request->input('unit');
-        $company->place = $request->input('place');
-        $company->per_price = $request->input('per_price');
-        $company->status_buy = $request->input('status_buy');
-        $company->num_old_asset = $request->input('num_old_asset');
-
-        if ($request->hasFile('pic')) {
-            $file = $request->file('pic');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extension;
-            $file->move('upload/companies/', $fileName);
-            $company->pic = $fileName;
+        if ($request->hasFile("images")) {
+            $files = $request->file("images");
+            foreach ($files as $file) {
+                $imageName = time() . '_' . $file->getClientOriginalName();
+                $request['companies_id'] = $company->id;
+                $request['image'] = $imageName;
+                $file->move(\public_path("/images"), $imageName);
+                Image::create($request->all());
+            }
         }
-        $company->fullname = $request->input('fullname');
-        $company->department = $request->input('department');
-        $company->name_info = $request->input('name_info');
-        $company->num_department = $request->input('num_department');
-
-
-        $company->code_money_id = $cash->id;
-        $company->name_money_id = $cash->id;
-        $company->budget = $cash->id;
-        $company->save();
-
 
 
         return redirect()->route('companies.index')->with('success', 'เพิ่มครุภัณฑ์สำเร็จแล้ว');

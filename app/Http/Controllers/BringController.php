@@ -29,15 +29,32 @@ class BringController extends Controller
 
     public function store(Request $request)
     {
+
+        // Validate การเบิกครุภัณฑ์
+        $request->validate([
+            'FullName' => 'required|string|max:255',
+            'date_bring' => 'required|date',
+            'detail' => 'required|string|max:255',
+            'num_asset' => 'required|string|regex:/^\d{12}-\d{5}-\d{5}$/',
+            'name_asset' =>   'required|string|max:255',
+            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
+            'num_sent' => 'required|string|max:255',
+            'Date_into' => 'required|date',
+            'department' => 'sometimes|required|string',
+            'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
+            'place' => 'required|string|max:255',
+        ]);
+
+
         $brings = new Bring;
-        $brings->fullname = $request->input('fullname');
+        $brings->FullName = $request->input('FullName');
         $brings->date_bring = $request->input('date_bring');
         $brings->detail = $request->input('detail');
         $brings->num_asset = $request->input('num_asset');
         $brings->name_asset = $request->input('name_asset');
         $brings->per_price = $request->input('per_price');
         $brings->num_sent = $request->input('num_sent');
-        $brings->date_into = $request->input('date_into');
+        $brings->Date_into = $request->input('Date_into');
         $brings->department = $request->input('department');
         $brings->num_department = $request->input('num_department');
         $brings->place = $request->input('place');
@@ -70,15 +87,33 @@ class BringController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        // Validate การเบิกครุภัณฑ์
+        $request->validate([
+            'FullName' => 'required|string|max:255',
+            'date_bring' => 'required|date',
+            'detail' => 'required|string|max:255',
+            'num_asset' => 'required|string|regex:/^\d{12}-\d{5}-\d{5}$/',
+            'name_asset' =>   'required|string|max:255',
+            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
+            'num_sent' => 'required|string|max:255',
+            'Date_into' => 'required|date',
+            'department' => 'required_if:select_field,selected_value',
+            'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
+            'place' => 'required|string|max:255',
+        ]);
+
+
+
         $brings = Bring::find($id);
-        $brings->fullname = $request->input('fullname');
+        $brings->FullName = $request->input('FullName');
         $brings->date_bring = $request->input('date_bring');
         $brings->detail = $request->input('detail');
         $brings->num_asset = $request->input('num_asset');
         $brings->name_asset = $request->input('name_asset');
         $brings->per_price = $request->input('per_price');
         $brings->num_sent = $request->input('num_sent');
-        $brings->date_into = $request->input('date_into');
+        $brings->Date_into = $request->input('Date_into');
         $brings->department = $request->input('department');
         $brings->num_department = $request->input('num_department');
         $brings->place = $request->input('place');

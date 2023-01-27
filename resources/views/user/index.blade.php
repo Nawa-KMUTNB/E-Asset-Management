@@ -15,36 +15,33 @@
     @section('content')
         <div class="container mt-2">
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-lg-12 text-center" id="brData">
                     <h1>จัดการผู้ใช้งาน</h1>
                 </div>
 
-                <div class="mt-2 mb-2 "><a href="{{ route('companies.index') }}" class="btn btn-warning">ย้อนกลับ</a>
+                <div class="mt-2 mb-2 " style="margin-left:92%"><a href="{{ route('companies.index') }}"
+                        class="btn btn-success">ย้อนกลับ</a>
                 </div>
 
-
-
-
-                <!--
-                                                                                                                                                                                                                                                    <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
-                                                                                                                                                                                                                                                    -->
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
                 </div>
             @endif
-            <table class="table table-bordered">
-                <tr>
-                    <th>ลำดับ</th>
-                    <th>ชื่อผู้ใช้</th>
-                    <th>อี-เมล ผู้ใช้งาน</th>
-                    <th>เลขอัตรา (เลขประจำตำแหน่ง)</th>
-                    <th>ตำแหน่ง</th>
-                    <th>ชื่อฝ่าย</th>
-                    <th>ชื่องาน</th>
-                    <th width="220px">Action</th>
-                </tr>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark" style="text-align:center;font-size:16px;">
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>ชื่อผู้ใช้</th>
+                        <th>อี-เมล ผู้ใช้งาน</th>
+                        <th>เลขอัตรา (เลขประจำตำแหน่ง)</th>
+                        <th>ตำแหน่ง</th>
+                        <th>ชื่อฝ่าย</th>
+                        <th>ชื่องาน</th>
+                        <th width="220px">Action</th>
+                    </tr>
+                </thead>
                 @foreach ($user as $users)
                     <tr>
                         <td>{{ $users->id }}</td>

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cash;
+use App\Models\Chips;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Detail_Asset;
+use App\Models\Image;
 use App\Models\Money;
 use Redirect;
 use DB;
+use Hamcrest\Arrays\IsArrayContainingInAnyOrder;
 
 class DetailCRUDController extends Controller
 {
@@ -20,10 +23,6 @@ class DetailCRUDController extends Controller
             ->get();
 
         return view('companies.detail', $data)->with('cashes_list', $cashes_list);
-
-
-        // return Redirect::to('companies.detail', $data)->withInput();
-        //return view('detail_companies.detailIndex', compact('Detail_Asset'));
     }
 
     /*public function edit(Company $company)
@@ -31,37 +30,15 @@ class DetailCRUDController extends Controller
         return view('companies.detail', compact('company'));
     }*/
 
-
     public function edit($id)
     {
         $company = Company::find($id);
-        $cash = Cash::find($id);
-        return view('companies.detail', compact(['company', 'cash']));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'num_asset' => 'required',
-            'name_asset' => 'required',
-            'propoty' => 'required',
-            'detail' => 'required',
-            'unit' => 'required',
-            'date_into' => 'required',
-            'price' => 'required',
-            'place' => 'required',
-        ]);
-        $company = Company::find($id);
-        $company->num_asset = $request->num_asset;
-        $company->name_asset = $request->name_asset;
-        $company->propoty = $request->propoty;
-        $company->detail = $request->detail;
-        $company->unit = $request->unit;
-        $company->date_into = $request->date_into;
-        $company->price = $request->price;
-        $company->place = $request->place;
-        $company->save();
-        return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
+        $cashes = Chips::where('id', $id)->get();
+        $images = Image::where('companies_id', $id)->get();
+        if (!$images->count()) {
+            return redirect()->route('companies.detail')->with('success', 'Images not found');
+        }
+        return view('companies.detail', compact(['company', 'cashes', 'images']));
     }
 
     public function create()

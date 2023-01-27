@@ -14,6 +14,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <link href="../css/main.css" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -22,16 +23,21 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('admin/home') }}">
+                <a class="navbar-brand" href="{{ url('admin/home') }}"id="a">
                     {{ config('', 'E-Asset Management') }}
                 </a>
+            </div>
+            <div class="container">
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
 
@@ -43,27 +49,39 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}" id="font-color">{{ __('ล็อคอิน') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}"
+                                        id="font-color">{{ __('สมัครสมาชิก') }}</a>
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <li class="nav-item mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a class="btn btn-outline-warning" href="{{ route('user.index') }}"
+                                    id="font-color">{{ __('จัดการผู้ใช้งาน') }}</a>
+                            </li>
+                            <li class="nav-item mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end ms-2 me-2">
+                                <a class="btn btn-outline-info" href="{{ route('bring.index') }}"
+                                    id="font-color">{{ __('การเบิกครุภัณฑ์') }}</a>
+
+                            </li>
+
+
+
+                            <li class="nav-item dropdown mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a class="nav-link dropdown-toggle btn btn-light" style="color: black" href="#"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
 
 
-
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" style="color:red;" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -74,7 +92,6 @@
                                     </form>
                                 </div>
                     </div>
-
 
                     </li>
                 @endguest

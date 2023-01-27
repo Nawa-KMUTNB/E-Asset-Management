@@ -24,11 +24,12 @@ return new class extends Migration
             $table->double('per_price', 10, 2);
             $table->string("status_buy");
             $table->string("num_old_asset");
-            $table->string('pic');
+            // $table->string('pic');
             $table->string("fullname");
             $table->string("department");
             $table->string("name_info");
             $table->string('num_department');
+            $table->string('cover');
 
 
             $table->timestamps();

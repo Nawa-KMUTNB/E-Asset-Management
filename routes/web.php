@@ -13,11 +13,14 @@ use App\Http\Controllers\SearchController;
 
 //หน้าแรก Admin
 Route::resource('companies', CRUDController::class);
+Route::get('pdfCompany', [CRUDController::class, 'pdf']);
+
 
 
 //การค้นหาหน้า Admin
 Route::get('/search', [SearchController::class, 'search'])->name('web.search');
 Route::get('/find', [SearchController::class, 'find'])->name('web.find');
+Route::get('pdfSearchAdmin/{id}', [SearchController::class, 'pdf']);
 
 //การค้นหาหน้า Member
 Route::get('/finduser', [SearchController::class, 'finduser'])->name('web.finduser');
@@ -31,6 +34,7 @@ Route::resource('money', MoneyController::class);
 Route::resource('member', MemberController::class);
 Route::resource('user', ManageUserController::class);
 Route::resource('bring', BringController::class);
+Route::get('/bringMember', [BringController::class, 'member'])->name('bring.member');
 
 
 Route::get('member', [BringController::class, 'member'])->name('member');

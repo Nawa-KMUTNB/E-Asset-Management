@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CashUpdateRequest;
 use App\Models\Cash;
+use App\Models\Chips;
 use App\Models\Company;
+use App\Models\Image;
 use App\Models\Money;
 use App\Models\Name_Money;
 use DB;
+use PDF;
 use Error;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use LDAP\Result;
+use Storage;
 
 class CRUDController extends Controller
 {
@@ -18,6 +24,7 @@ class CRUDController extends Controller
     public function index()
     {
         $data['companies'] = Company::orderBy('id', 'asc')->paginate(10);
+
         return view('companies.index', $data);
     }
 
@@ -27,178 +34,203 @@ class CRUDController extends Controller
         return view('companies.create');
     }
 
-
-    /*public function edit(Company $company)
-    {
-        return view('companies.edit', compact('company'));
-    }*/
-
     public function edit($id)
     {
 
         $company = Company::find($id);
-        /*if (!$company) {
-            return redirect()->route('companies.edit')->with('success', 'Company not found');
-        }*/
 
-        $cash = Cash::find($id);
-        if (!$cash) {
+        $cash = Chips::find($id);
 
-            return redirect()->route('companies.edit')->with('error', 'Cash not found');
-        }
         $cashes = Cash::groupBy('code_money')->get();
         if (!$cashes->count()) {
-            return redirect()->route('companies.edit')->with('error', 'Cash not found');
+            return redirect()->route('companies.edit')->with('success', 'Cash not found');
         }
 
-        return view('companies.edit', compact(['company', 'cash', 'cashes']));
+        $images = Image::where('companies_id', $id)->get();
+        if (!$images->count()) {
+            return redirect()->route('companies.detail')->with('success', 'Images not found');
+        }
 
-        /*
-        $company = Company::find($id);
-        $cash = Cash::find($id)
-            ->groupBy('code_money')
-            ->get();
-        return view('companies.edit', compact(['company', 'cash']))->with('cash', $cash);
-        */
+        return view('companies.edit', compact(['company', 'cash', 'cashes', 'images']));
     }
-
-
-    /* public function update(Request $request, $id)
-    {
-        $request->validate([
-            'num_asset' => 'required',
-            'name_asset' => 'required',
-            'propoty' => 'required',
-            'detail' => 'required',
-            'unit' => 'required',
-            'date_into' => 'required',
-            'price' => 'required',
-            'place' => 'required',
-            'fullname' => 'required',
-            'department' => 'required',
-            'name_info' => 'required',
-            'code_money' => 'required',
-            'name_money' => 'required',
-            'budget' => 'required',
-            'status_buy' => 'required',
-            'status_sell' => 'required',
-            'num_old_asset' => 'required',
-            'num_department' => 'required',
-            'per_price' => 'required',
-            'pic' => 'required'
-        ]);
-        $company = Company::find($id);
-        $company->num_asset = $request->num_asset;
-        $company->name_asset = $request->name_asset;
-        $company->propoty = $request->propoty;
-        $company->detail = $request->detail;
-        $company->unit = $request->unit;
-        $company->date_into = $request->date_into;
-        $company->price = $request->price;
-        $company->place = $request->place;
-        $company->fullname = $request->fullname;
-        $company->department = $request->department;
-        $company->name_info = $request->name_info;
-        $company->code_money = $request->code_money;
-        $company->name_money = $request->name_money;
-        $company->budget = $request->budget;
-        $company->status_buy = $request->status_buy;
-        $company->status_sell = $request->status_sell;
-        $company->num_old_asset = $request->num_old_asset;
-        $company->num_department = $request->num_department;
-        $company->per_price = $request->per_price;
-        $company->pic = $request->pic;
-        $company->save();
-        return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
-    } */
-
 
     public function update(Request $request, $id)
     {
 
-        $company = Company::find($id);
-        $company->num_asset = $request->input('num_asset');
-        $company->date_into = $request->input('date_into');
-        $company->name_asset = $request->input('name_asset');
-        $company->detail = $request->input('detail');
-        $company->unit = $request->input('unit');
-        $company->place = $request->input('place');
-        $company->per_price = $request->input('per_price');
-        $company->status_buy = $request->input('status_buy');
-        $company->num_old_asset = $request->input('num_old_asset');
-
-
-        if ($request->hasFile('pic')) {
-            $destination = 'upload/companies/' . $company->pic;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file('pic');
-            $extention = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extention;
-            $file->move('upload/companies/', $fileName);
-            $company->pic = $fileName;
-        }
-
-
-        $company->fullname = $request->input('fullname');
-        $company->department = $request->input('department');
-        $company->name_info = $request->input('name_info');
-        $company->num_department = $request->input('num_department');
-
-
-        $cash = Cash::where('id', $id)->update([
-            'code_money' => $request->input('code_money'),
-            'name_money' => $request->input('name_money'),
-            'budget' => $request->input('budget')
-
+        // Validate ข้อมูลครุภัณฑ์
+        $request->validate([
+            'cover' => 'mimes:jpeg,jpg,png|max:2048',
+            'images.*' => 'mimes:jpeg,jpg,png|max:2048',
+            'num_asset' => 'required|string|regex:/^\d{12}-\d{5}-\d{5}$/',
+            'date_into' => 'required|date',
+            'name_asset' => 'required|string|max:255',
+            'detail' => 'required|string|max:255',
+            'unit' =>   'required|string|max:60',
+            'place' => 'required|string|max:255',
+            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
+            'status_buy' => 'required|string|max:255',
+            //'num_old_asset' => 'required|string|regex:/^\d{3}(\-)\d{2}(\-)\d{1}(\-)(\d{1}\/\d{5})$/',
+            'num_old_asset' => 'required|string|max:255',
+            'fullname' => 'required|string|max:255',
+            'department' => 'sometimes|required|string',
+            'name_info' => 'required|string|max:255',
+            'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
         ]);
 
-        if ($cash > 0) {
-            // update was successful
 
-            return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
+
+        $company = Company::find($id);
+
+        if ($request->hasFile("cover")) {
+            if (File::exists("cover/" . $company->cover)) {
+                File::delete("cover/" . $company->cover);
+            }
+            $file = $request->file("cover");
+            $company->cover = time() . "_" . $file->getClientOriginalName();
+            $file->move(\public_path("/cover"), $company->cover);
+            $request['cover'] = $company->cover;
+        }
+
+
+
+        //Cash Update (อัพเดทตาราง Cash ของแหล่งเงิน ชื่อแหล่งเงิน งบประจำปี)
+        $cash = Chips::find($id);
+
+        if (is_null($cash)) {
+            return redirect()->route('companies.index')->with('success', 'Company not found');
         } else {
-            // update was unsuccessful
-            return redirect()->route('companies.index')->with('success', 'ไม่สามารถแก้ไขครุภัณฑ์ได้ กรุณากลับไปกดแก้ไขใหม่อีกรอบ');
+            $code_money = $request->input('code_money');
+            $name_money = $request->input('name_money');
+            $budget = $request->input('budget');
+            if (!empty($code_money) && !empty($name_money) && !empty($budget)) {
+                $cash->code_money = $code_money;
+                $cash->name_money = $name_money;
+                $cash->budget = $budget;
+                $cash->update();
+            }
+        }
+        //-------------------------------------------------------------------
+
+
+
+        $company->update([
+            "num_asset" => $request->num_asset,
+            "date_into" => $request->date_into,
+            "name_asset" => $request->name_asset,
+            "detail" => $request->detail,
+            "unit" => $request->unit,
+            "place" => $request->place,
+            "per_price" => $request->per_price,
+            "status_buy" => $request->status_buy,
+            "num_old_asset" => $request->num_old_asset,
+            "fullname" => $request->fullname,
+            "department" => $request->department,
+            "name_info" => $request->name_info,
+            "num_department" => $request->num_department,
+            //"cover" => $request->cover,
+        ]);
+
+        if ($request->hasFile("images")) {
+            $files = $request->file("images");
+            foreach ($files as $file) {
+                $imageName = time() . '_' . $file->getClientOriginalName();
+                $request["companies_id"] = $id;
+                $request["image"] = $imageName;
+                $file->move(\public_path("images"), $imageName);
+                Image::create($request->all());
+            }
         }
 
-        /*
-        if ($cash != null) {
-            $company->code_money_id = $cash->id;
-            $company->name_money_id = $cash->id;
-            $company->budget = $cash->id;
-        }
-*/
-        $company->update();
-        return redirect()->route('companies.index', ['cash' => $cash])->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
+        return redirect()->route('companies.index')->with('success', 'แก้ไขครุภัณฑ์สำเร็จแล้ว');
     }
-
-    /* public function destroy(Company $company)
-    {
-        $company->delete();
-        return redirect()->route('companies.index')->with('success', 'ลบครุภัณฑ์สำเร็จแล้ว');
-    }*/
 
     public function destroy($id)
     {
         $company = Company::find($id);
-        $destination = 'upload/companies/' . $company->pic;
+        $destination = 'cover/' . $company->cover;
         if (File::exists($destination)) {
             File::delete($destination);
         }
 
+        $images = Image::where('companies_id', $company->id)->get();
+        foreach ($images as $image) {
+            if (File::exists("images/" . $image->image)) {
+                File::delete("images/" . $image->image);
+            }
+            $image->delete();
+        }
         $company->delete();
+
+        $cash = Chips::find($id);
+        $cash->delete();
+
         return redirect()->route('companies.index')->with('success', 'ลบครุภัณฑ์สำเร็จแล้ว');
     }
 
-    /* public function search(Request $request)
+
+    function get_companies()
     {
-        if ($request->isMethod('post')) {
-            $name = $request->get('name');
-            $company = Company::where('num_asset', 'LIKE', '%' . $name . '%')->paginate(10);
-        }
-        return view('companies.index', compact('company'));
+        $companies = DB::table('companies')
+            ->limit(10)
+            ->get();
+        return $companies;
     }
-    */
+
+    function pdf()
+    {
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($this->convert_companies_to_html());
+        return $pdf->stream();
+    }
+
+    function convert_companies_to_html()
+    {
+        $companies = $this->get_companies();
+        return view('companies.pdf')->with('companies', $companies);
+        /*
+        $output = '
+     <h3 align="center">ข้อมูลครุภัณฑ์</h3>
+     <style>
+     @page { size: 21cm 29.7cm landscape; }
+     @font-face {
+        font-family: "THSarabunNew";
+        font-style: normal;
+        font-weight: normal;
+        src: url("{{ public_path("fonts/THSarabunNew.ttf") }}") format("truetype");
+    }
+    td {
+        font-family: "THSarabunNew";
+    }     </style>
+
+      <table style="border-collapse: collapse; width: 100%;" border="0">
+      <tr>
+    <td style="border: 1px solid; padding:10px;" width:20%>หมายเลขครุภัณฑ์</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>วันที่รับเข้าคลัง</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>ชื่อครุภัณฑ์</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>รายละเอียด</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>หน่วยนับ</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>สถานที่ตั้ง</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>ราคา/หน่วย</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>สถานะ</td>
+    <td style="border: 1px solid; padding:10px;" width:10%>หมายเลขครุภัณฑ์เก่า</td>
+   </tr>
+     ';
+        foreach ($companies as $company) {
+            $output .= '
+      <tr>
+       <td style="border: 1px solid; padding:10px;">' . $company->num_asset . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->date_into . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->name_asset . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->detail . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->unit . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->place . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->per_price . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->status_buy . '</td>
+       <td style="border: 1px solid; padding:10px;">' . $company->num_old_asset . '</td>
+       </tr>
+      ';
+        }
+        $output .= '</table>';
+        return $output;   */
+    }
 }

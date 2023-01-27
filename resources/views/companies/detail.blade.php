@@ -8,6 +8,8 @@
     <title>รายละเอียดข้อมูลครุภัณฑ์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../../css/main.css" rel="stylesheet">
+
 </head>
 @extends('layouts.app')
 
@@ -15,20 +17,15 @@
     @section('content')
         <div class="container mt-2">
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1>รายละเอียดข้อมูลครุภัณฑ์</h1>
+                <div class="col-lg-12 text-center" id="brData">
+                    <h3>รายละเอียดข้อมูลครุภัณฑ์</h3>
                 </div>
 
                 <table>
                     <tr>
-                        <td>
+                        <td style="text-align: right">
                             <div class="mb-1"><a href="{{ route('companies.index') }}"
                                     class="btn btn-warning">ย้อนกลับ</a></div>
-                        </td>
-                        <td>
-                            <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end ">
-                                <a href="{{ route('bring.index') }}" class="btn btn-info">การเบิกครุภัณฑ์</a>
-                            </div>
                         </td>
                     </tr>
                 </table>
@@ -41,75 +38,52 @@
                 </div>
             @endif
 
-            <table class="table table-bordered">
-                <tr>
-                    <th>หมายเลขครุภัณฑ์</th>
-                    <th>วันที่รับเข้าคลัง</th>
-                    <th>ชื่อครุภัณฑ์</th>
-                    <th>รายละเอียด</th>
-                    <th>หน่วยนับ</th>
-                    <th>สถานที่ตั้ง</th>
-                    <th>ราคา/หน่วย</th>
-                    <th>สถานะ</th>
-                    <th>หมายเลขครุภัณฑ์เก่า</th>
-                    <th>รูปภาพ</th>
-                    <th>ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์</th>
-                    <th>ฝ่ายที่ครอบครองครุภัณฑ์</th>
-                    <th>เลขอัตรา (เลขประจำตำแหน่ง)</th>
-                    <th>ชื่อ - สกุล ผู้นำเข้าคลัง</th>
-                    <th>เลขแหล่งเงิน</th>
-                    <th>ชื่อแหล่งเงิน</th>
-                    <th>ปีงบประมาณ</th>
-
-                    <!-- <th width="220px">Action</th>  -->
-                </tr>
-
-                <tr>
-                    <form action="{{ route('detail_companies.index', $company->id) }}" method="POST"
-                        enctype="multipart/form-data">
-                        <td>{{ $company->num_asset }}</td>
-                        <td>{{ $company->date_into }}</td>
-                        <td>{{ $company->name_asset }}</td>
-                        <td>{{ $company->detail }}</td>
-                        <td>{{ $company->unit }}</td>
-                        <td>{{ $company->place }}</td>
-                        <td>{{ $company->per_price }}</td>
-                        <td>{{ $company->status_buy }}</td>
-                        <td>{{ $company->num_old_asset }}</td>
-                        <td>
-                            <img src="{{ asset('upload/companies/' . $company->pic) }}" width="150px" heigth="150px"
+            <form action="{{ route('detail_companies.index', $company->id) }}" method="POST" enctype="multipart/form-data"
+                style="margin-left:3%;">
+                <div class="container my-3 mt-3 pt-3">
+                    <div class="row">
+                        <div class="col mt-1 text-center">
+                            <h4>รูปภาพปก</h4><br>
+                            <img src="{{ asset('/cover/' . $company->cover) }}" width="250px" class="border"
                                 alt="Image">
+                        </div>
+                        <div class="col mt-1 text-center">
+                            <h4>รูปภาพ</h4> <br>
+                            @foreach ($images as $img)
+                                <img src="/images/{{ $img->image }}" width="470px" class="border" alt="Image">
+                            @endforeach
+                        </div>
 
-                        </td>
-                        <td>{{ $company->fullname }}</td>
-                        <td>{{ $company->department }}</td>
-                        <td>{{ $company->num_department }}</td>
-                        <td>{{ $company->name_info }}</td>
+                        <div class="col" style="background-color:white;padding:15px">
+
+                            <p><b>หมายเลขครุภัณฑ์</b> : {{ $company->num_asset }}</p>
+                            <p><b>วันที่รับเข้าคลัง</b> : {{ $company->date_into }}</p>
+                            <p><b>ชื่อครุภัณฑ์</b> : {{ $company->name_asset }} </p>
+                            <p class="text-break"><b>รายละเอียด</b> : {{ $company->detail }}</p>
+                            <p><b>หน่วยนับ</b> : {{ $company->unit }} </p>
+                            <p><b>สถานที่ตั้ง</b> : {{ $company->place }} </p>
+                            <p><b>ราคา/หน่วย</b> : {{ $company->per_price }} </p>
+                            <p><b>สถานะ</b> : {{ $company->status_buy }} </p>
+                        </div>
+                        <div class="col" style="background-color:#000;color:white;padding:15px">
+                            <p><b>หมายเลขครุภัณฑ์เก่า</b> : {{ $company->num_old_asset }} </p>
+                            <p><b>ผู้ครอบครองครุภัณฑ์</b> : <br>{{ $company->fullname }} </p>
+                            <p><b>ฝ่ายที่ครอบครองครุภัณฑ์</b> : {{ $company->department }} </p>
+                            <p><b>เลขอัตรา (เลขประจำตำแหน่ง)</b> : {{ $company->num_department }} </p>
+                            <p><b>ชื่อ - สกุล ผู้นำเข้าคลัง</b> : {{ $company->name_info }} </p>
+                            @foreach ($cashes as $cash)
+                                <p><b>เลขแหล่งเงิน</b> : {{ $cash->code_money }} </p>
+                                <p><b>ชื่อแหล่งเงิน</b> : {{ $cash->name_money }} </p>
+                                <p><b>ปีงบประมาณ</b> : {{ $cash->budget }} </p>
+                            @endforeach
+                        </div>
 
 
-                        <td>{{ $cash->code_money }}</td>
-                        <td>{{ $cash->name_money }}</td>
-                        <td>{{ $cash->budget }}</td>
+                    </div>
 
+                </div>
 
-                        <!--
-                                                                                                                                                                                                <td>
-                                                                                                                                                                                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                                                                                                                                                                                    <a href="{{ route('companies.edit', $company->id) }}"
-                                                                                                                                                                                                        class="btn btn-warning">แก้ไขครุภัณฑ์</a>
-                                                                                                                                                                                                    @csrf
-                                                                                                                                                                                                    @method('DELETE')
-                                                                                                                                                                                                    <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
-
-                                                                                                                                                                                                </form>
-                                                                                                                                                                                            </td>
-                                                                                                                                                                                        -->
-
-                    </form>
-                </tr>
-
-
-            </table>
+            </form>
 
         </div>
     @endsection

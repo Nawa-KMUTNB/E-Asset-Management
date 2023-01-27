@@ -9,37 +9,36 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-@extends('layouts.app')
+@extends('layouts.user')
 
 <body>
     @section('content')
         <div class="container mt-2">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1>ข้อมูลการเบิกครุภัณฑ์</h1>
+            <div class="row mb-2">
+                <div class="col-lg-12 text-center" id="brData2">
+                    <h3>ข้อมูลการเบิกครุภัณฑ์</h3>
                 </div>
 
 
                 <form action="{{ route('web.searchMember') }}" method="GET">
 
                     <div class="input-group">
-                        <input type="text" class="form-control" name="query" placeholder="Search here....."
-                            value="{{ request()->input('query') }}">
+                        <input type="text" style=" border-radius: 10px;margin-top:10px;" class="form-control"
+                            name="query" placeholder="ค้นหาครุภัณฑ์" value="{{ request()->input('query') }}"
+                            id="search">
                         <span class="text-danger">
                             @error('query')
                                 {{ $message }}
                             @enderror
                         </span>
-                        <button type="submit" class="btn btn-outline-primary">ค้นหา</button>
-                        <a href="{{ route('member') }}" class="btn btn-outline-danger">ล้างการค้นหา </a>
+                        <button type="submit" class="btn btn-outline-primary"
+                            style="margin-left: 5px;margin-top:10px;margin-right: 5px; border-radius :10px;"
+                            id="height">ค้นหา</button>
+                        <a href="{{ url('bringMember') }}" class="btn btn-outline-danger"
+                            style="margin-top:10px;border-radius:10px; "id="height">ล้างการค้นหา </a>
 
                     </div>
                 </form>
-
-                <div class="mt-2 mb-2">
-                    <a href="{{ route('home') }}" class="btn btn-warning">ย้อนกลับหน้าแรก</a>
-                </div>
-
 
             </div>
             @if ($message = Session::get('success'))
@@ -47,21 +46,23 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
-            <table class="table table-bordered">
-                <tr>
-                    <th>ลำดับ</th>
-                    <th>ชื่อผู้เบิก</th>
-                    <th>วันที่เบิก</th>
-                    <th>รายละเอียด</th>
-                    <th>หมายเลขครุภัณฑ์</th>
-                    <th>ชื่อครุภัณฑ์</th>
-                    <th>ราคา/หน่วย</th>
-                    <th>เลขที่ใบส่งของ</th>
-                    <th>วันที่รับเข้าคลัง</th>
-                    <th>ฝ่ายที่เบิก</th>
-                    <th>เลขประจำตำแหน่ง</th>
-                    <th>ที่ตั้งครุภัณฑ์</th>
-                </tr>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark" style="text-align:center;font-size:16px;">
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>ชื่อผู้เบิก</th>
+                        <th>วันที่เบิก</th>
+                        <th>รายละเอียด</th>
+                        <th>หมายเลขครุภัณฑ์</th>
+                        <th>ชื่อครุภัณฑ์</th>
+                        <th>ราคา/หน่วย</th>
+                        <th>เลขที่ใบส่งของ</th>
+                        <th>วันที่รับเข้าคลัง</th>
+                        <th>ฝ่ายที่เบิก</th>
+                        <th>เลขประจำตำแหน่ง</th>
+                        <th>ที่ตั้งครุภัณฑ์</th>
+                    </tr>
+                </thead>
                 @foreach ($brings as $bring)
                     <tr>
                         <td>{{ $bring->id }}</td>
@@ -76,7 +77,6 @@
                         <td>{{ $bring->department }}</td>
                         <td>{{ $bring->num_department }}</td>
                         <td>{{ $bring->place }}</td>
-
                     </tr>
                 @endforeach
             </table>

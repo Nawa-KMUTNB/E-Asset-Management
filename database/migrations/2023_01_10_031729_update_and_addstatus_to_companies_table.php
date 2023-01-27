@@ -14,12 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->unsignedBigInteger('code_money_id');
-            $table->unsignedBigInteger('name_money_id');
-            $table->unsignedBigInteger('budget');
-            $table->foreign('code_money_id')->references('id')->on('cashes');
-            $table->foreign('name_money_id')->references('id')->on('cashes');
-            $table->foreign('budget')->references('id')->on('cashes');
+            $table->foreignId("code_money_id")->constraint("chips")->onDelete("cascade");
+            $table->foreignId("name_money_id")->constraint("chips")->onDelete("cascade");
+            $table->foreignId("budget")->constraint("chips")->onDelete("cascade");
         });
     }
 

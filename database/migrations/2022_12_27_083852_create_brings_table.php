@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('brings', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname')->comment('ชื่อผู้เบิก');
+            $table->string('FullName')->comment('ชื่อผู้เบิก');
             $table->date('date_bring')->comment('วันที่เบิก');
             $table->longText('detail')->comment('รายละเอียด');
             $table->string('num_asset')->comment('หมายเลขครุภัณฑ์');
             $table->string('name_asset')->comment('ชื่อครุภัณฑ์');
             $table->double('per_price', 10, 2)->comment('ราคา/หน่วย');
             $table->string('num_sent')->comment('เลขที่ใบส่งของ');
-            $table->date('date_into')->comment('วันที่เข้าคลัง');
+            $table->date('Date_into')->comment('วันที่เข้าคลัง');
             $table->string('department')->comment('ฝ่ายที่เบิก');
             $table->string('num_department')->comment('เลขประจำตำแหน่ง');
-            $table->string('place')->comment('ที่ตั้งครุภัณฑ์');
+            $table->string('place')->comment('สถานที่ตั้งครุภัณฑ์');
             $table->timestamps();
         });
     }

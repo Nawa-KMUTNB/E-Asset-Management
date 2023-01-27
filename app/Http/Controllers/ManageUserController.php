@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CashUpdateRequest;
 use App\Models\User;
+use Doctrine\Inflector\Rules\Pattern;
 use Illuminate\Http\Request;
 
 class ManageUserController extends Controller
@@ -22,24 +24,28 @@ class ManageUserController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'num_position' => 'required',
-            'position' => 'required',
-            'department' => 'required',
-            'task' => 'required',
-            'password' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email'],
+            'num_position' => ['required', 'string', 'regex:/^[0-9]{3,5}$/'],
+            'position' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string', 'max:255'],
+            'task' => ['required', 'string', 'max:255'],
+            'is_admin' => ['required', 'numeric', 'regex:/^[0-1]{1}$/'],
         ]);
+
         $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->num_position = $request->num_position;
-        $user->position = $request->position;
-        $user->department = $request->department;
-        $user->task = $request->task;
-        $user->password = $request->password;
-        $user->save();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->num_position = $request->input('num_position');
+        $user->position = $request->input('position');
+        $user->department = $request->input('department');
+        $user->task = $request->input('task');
+        // $user->password = $request->password;
+        $user->is_admin = $request->input('is_admin');
+        $user->update();
+
         return redirect()->route('user.index')->with('success', 'แก้ไขผู้ใช้งานสำเร็จแล้ว');
     }
 

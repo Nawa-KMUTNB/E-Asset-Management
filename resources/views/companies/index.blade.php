@@ -8,6 +8,11 @@
     <title>ข้อมูลครุภัณฑ์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../css/main.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 @extends('layouts.app')
 
@@ -22,68 +27,61 @@
 
                 <form action="{{ route('web.find') }}" method="GET">
 
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="query" placeholder="Search here....."
-                            value="{{ request()->input('query') }}">
+                    <div class="input-group" style="margin-bottom:10px;">
+
+                        <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end "><a
+                                href="{{ route('money.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a>
+
+                            <a href="{{ url('pdfCompany') }}" class="btn btn-danger">Convert into PDF</a>
+
+                        </div>
+
+
+                        <input type="text" style=" border-radius: 10px;margin-top:10px;" class="form-control"
+                            name="query" placeholder="ค้นหาครุภัณฑ์" value="{{ request()->input('query') }}"
+                            id="search">
                         <span class="text-danger">
                             @error('query')
                                 {{ $message }}
                             @enderror
                         </span>
-                        <button type="submit" class="btn btn-outline-primary">ค้นหา</button>
-                        <a href="{{ route('companies.index') }}" class="btn btn-outline-danger">ล้างการค้นหา </a>
+                        <button type="submit" class="btn btn-outline-primary"
+                            style="margin-left: 5px;margin-top:10px;margin-right: 5px; border-radius :10px;"
+                            id="height">ค้นหา</button>
+                        <a href="{{ route('companies.index') }}" class="btn btn-outline-danger"
+                            style="margin-top:10px;border-radius:10px; "id="height">ล้างการค้นหา </a>
+
 
                     </div>
                 </form>
 
 
-                <table>
-                    <tr>
-                        <td>
-                            <div class="mt-2 mb-2 "><a href="{{ route('user.index') }}"
-                                    class="btn btn-success">จัดการผู้ใช้งาน</a>
-                            </div>
-
-                        </td>
-                        <td>
-                            <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end "><a
-                                    href="{{ route('money.create') }}" class="btn btn-info">เพิ่มครุภัณฑ์</a>
-                            </div>
-
-                        </td>
-                    </tr>
-                </table>
-
-
-
-
-                <!--
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="mb-2"><a href="{{ route('companies.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                -->
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
                 </div>
             @endif
-            <table class="table table-bordered">
-                <tr>
-                    <th width="90px"></th>
-                    <th>ลำดับ</th>
-                    <th>หมายเลขครุภัณฑ์</th>
-                    <th>วันที่รับเข้าคลัง</th>
-                    <th>ชื่อครุภัณฑ์</th>
-                    <th>รายละเอียด</th>
-                    <th>หน่วยนับ</th>
-                    <th>สถานที่ตั้ง</th>
-                    <th>ราคา/หน่วย</th>
-                    <th>สถานะ</th>
-                    <th>หมายเลขครุภัณฑ์เก่า</th>
-                    <th>รูปภาพ</th>
-                    <th width="220px">Action</th>
-                </tr>
-                @foreach ($companies as $company)
+            <table class="table table-hover table-bordered ">
+                <thead class="table-dark" style="text-align:center;font-size:16px;">
                     <tr>
+                        <th width="90px"></th>
+                        <th>ลำดับ</th>
+                        <th>หมายเลขครุภัณฑ์</th>
+                        <th>วันที่รับเข้าคลัง</th>
+                        <th>ชื่อครุภัณฑ์</th>
+                        <th>รายละเอียด</th>
+                        <th>หน่วยนับ</th>
+                        <th>สถานที่ตั้ง</th>
+                        <th>ราคา/หน่วย</th>
+                        <th>สถานะ</th>
+                        <th>หมายเลขครุภัณฑ์เก่า</th>
+                        <th>รูปภาพปก</th>
+                        <th width="220px">Action</th>
+                    </tr>
+                </thead>
+                @foreach ($companies as $company)
+                    <tr style="text-align: center">
                         <td>
                             <a href="{{ route('detail_companies.edit', $company->id) }}" class="text-primary">รายละเอียด</a>
                         </td>
@@ -98,9 +96,8 @@
                         <td>{{ $company->status_buy }}</td>
                         <td>{{ $company->num_old_asset }}</td>
                         <td>
-                            <img src="{{ asset('upload/companies/' . $company->pic) }}" width="150px" heigth="150px"
-                                alt="Image">
-
+                            <img src="/cover/{{ $company->cover }}" class="img-responsive"
+                                style="max-height: 150px; max-width:150px" alt="">
                         </td>
                         <td>
                             <form action="{{ route('companies.destroy', $company->id) }}" method="POST">

@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Image;
+use App\Models\Cash;
+use App\Models\Chips;
+
 class Company extends Model
 {
     use HasFactory;
@@ -20,22 +24,36 @@ class Company extends Model
         "per_price",
         "status_buy",
         "num_old_asset",
-        "pic",
+
         "fullname",
         "department",
         "name_info",
         "num_department",
+        "budget",
+        "cover",
+        "code_money_id",
+        "name_money_id",
         "budget"
 
         /* 
                 "code_money",
         "name_money",
-
+"pic",
         */
     ];
 
     public function cash()
     {
         return $this->belongsTo(Cash::class, 'code_money_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function chips()
+    {
+        return $this->hasMany(Chips::class);
     }
 }

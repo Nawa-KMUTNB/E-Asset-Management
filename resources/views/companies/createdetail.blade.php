@@ -8,17 +8,18 @@
     <title>เพิ่มครุภัณฑ์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../css/main2.css" rel="stylesheet">
 
 </head>
 
-<body>
+<body id="bg">
 
     <div class="container mt-2">
         <div class="row">
-            <div class="col-lg-12 text-center">
+            <div class="col-lg-12 text-center" id="brData">
                 <h1>เพิ่มครุภัณฑ์</h1>
             </div>
-            <div><a href="{{ route('companies.index') }}" class="btn btn-warning">ย้อนกลับ</a></div>
+
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ sesssion('status') }}
@@ -26,44 +27,52 @@
             @endif
 
 
-            <form action=" {{ route('money.store') }}" method="POST" enctype="multipart/form-data">
+            <form action=" {{ route('money.store') }}" method="POST" enctype="multipart/form-data" id="border1">
                 @csrf
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="row" id="border2">
+
+                    <!-- หมายเลขครุภัณฑ์ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>หมายเลขครุภัณฑ์</strong>
-                            <input type="text" name="num_asset" class="form-control" placeholder="หมายเลขครุภัณฑ์" />
+                            <input type="text" name="num_asset" class="form-control" placeholder="หมายเลขครุภัณฑ์"
+                                id="input" />
                             @error('num_asset')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- วันที่รับเข้าคลัง -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>วันที่รับเข้าคลัง</strong>
-                            <input type="date" name="date_into" class="form-control"
-                                placeholder="วันที่รับเข้าคลัง" />
+                            <input type="date" name="date_into" class="form-control" placeholder="วันที่รับเข้าคลัง"
+                                id="input" />
                             @error('date_into')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- ชื่อครุภัณฑ์ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ชื่อครุภัณฑ์</strong>
-                            <input type="text" name="name_asset" class="form-control" placeholder="ชื่อครุภัณฑ์" />
+                            <input type="text" name="name_asset" class="form-control" placeholder="ชื่อครุภัณฑ์"
+                                id="input" />
                             @error('name_asset')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- รายละเอียด -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>รายละเอียด</strong>
-                            <textarea name="detail" cols="30" rows="2" class="form-control" placeholder="รายละเอียด"></textarea>
+                            <textarea name="detail" cols="30" rows="2" class="form-control" placeholder="รายละเอียด" id="input"
+                                style="height: 130px"></textarea>
 
                             @error('detail')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -71,53 +80,60 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- หน่วยนับ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>หน่วยนับ</strong>
-                            <input type="text" name="unit" class="form-control" placeholder="หน่วยนับ" />
+                            <input type="text" name="unit" class="form-control" placeholder="หน่วยนับ"
+                                id="input" />
                             @error('unit')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-
-                    <div class="col-md-12">
+                    <!-- สถานที่ตั้ง -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>สถานที่ตั้ง</strong>
-                            <input type="text" name="place" class="form-control" placeholder="ที่ตั้งครุภัณฑ์" />
+                            <input type="text" name="place" class="form-control" placeholder="ที่ตั้งครุภัณฑ์"
+                                id="input" />
                             @error('place')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- ราคา/หน่วย -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ราคา/หน่วย</strong>
-                            <input type="number" name="per_price" class="form-control" placeholder="ราคา/หน่วย" />
+                            <input type="number" name="per_price" class="form-control" placeholder="ราคา/หน่วย"
+                                id="input" />
                             @error('per_price')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- สถานะ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>สถานะ</strong>
                             <input type="text" name="status_buy" value="-" class="form-control"
-                                placeholder="สถานะ (ถ้าไม่มี ให้ใส่ในช่องว่า ไม่มี)" />
+                                placeholder="สถานะ (ถ้าไม่มี ให้ใส่ในช่องว่า ไม่มี)" id="input" />
                             @error('status_buy')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- หมายเลขครุภัณฑ์เก่า -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>หมายเลขครุภัณฑ์เก่า</strong>
                             <input type="text" name="num_old_asset" value="-" class="form-control"
-                                placeholder="หมายเลขครุภัณฑ์เก่า" />
+                                placeholder="หมายเลขครุภัณฑ์เก่า" id="input" />
                             @error('num_old_asset')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -125,45 +141,67 @@
                     </div>
 
 
-                    <div class="col-md-12">
+                    <!-- ชื่อ - สกุล ผู้นำเข้าคลัง -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
-                            <strong>รูปภาพ</strong>
-                            <input type="file" name="pic" class="form-control" />
-                            @error('pic')
+                            <strong>ชื่อ - สกุล ผู้นำเข้าคลัง</strong>
+                            <input type="text" name="name_info" class="form-control"
+                                value="นางจารุดา วราภรณ์นิลอุบล" placeholder="ชื่อ - สกุล ผู้นำเข้าคลัง"
+                                id="input" />
+                            @error('name_info')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <!--
 
-                    <div class="col-md-12">
+                    <!-- รูปภาพปก -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
-                            <strong>มูลค่าครุภัณฑ์</strong>
-                            <input type="number" name="price" class="form-control" placeholder="มูลค่าครุภัณฑ์" />
-                            @error('price')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
+                            <strong>รูปภาพปก</strong>
+                            <input type="file" name="cover" class="form-control" id="cover">
+                            @error('cover')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="user-image mb-3 text-center">
+                            <div class="coverPreview"> </div>
                         </div>
                     </div>
--->
 
 
-                    <div class="col-md-12">
+                    <!-- รูปภาพ -->
+                    <div class="col-md-6">
+                        <div class="form-group my-3">
+                            <strong>รูปภาพเพิ่มเติม</strong>
+                            <input type="file" name="images[]" class="form-control" multiple id="images">
+                            @error('images')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="user-image mb-3 text-center">
+                            <div class="imgPreview"> </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์</strong>
                             <input type="" name="fullname" class="form-control"
-                                placeholder="ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์" />
+                                placeholder="ชื่อ - สกุล ผู้ครอบครองครุภัณฑ์" id="input" />
                             @error('fullname')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- ฝ่ายที่ครอบครองครุภัณฑ์ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ฝ่ายที่ครอบครองครุภัณฑ์</strong> <br>
-                            <select name="department" class="form-select">
+                            <select name="department" class="form-select" id="input">
                                 <option selected>โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
@@ -178,33 +216,21 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+
+                    <!-- เลขอัตรา -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>เลขอัตรา (เลขประจำตำแหน่ง)</strong>
                             <input type="text" name="num_department" class="form-control"
-                                placeholder="เลขอัตรา (เลขประจำตำแหน่ง)" />
+                                placeholder="เลขอัตรา (เลขประจำตำแหน่ง)" id="input" />
                             @error('num_department')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-
-                    <div class="col-md-12">
-                        <div class="form-group my-3">
-                            <strong>ชื่อ - สกุล ผู้นำเข้าคลัง</strong>
-                            <input type="text" name="name_info" class="form-control"
-                                value="นางจารุดา วราภรณ์นิลอุบล" placeholder="ชื่อ - สกุล ผู้นำเข้าคลัง" />
-                            @error('name_info')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <!---------------------------------------------------------------->
-
-                    <div class="col-md-12">
+                    <!-- สำหรับการ Select เลขแหล่งเงิน ชื่อแหล่งเงิน และ ปีงบประมาณ -->
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>เลขแหล่งเงิน</strong> <br>
                             <select name="code_money" id="code_money" class="form-control dynamic"
@@ -231,7 +257,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ชื่อแหล่งเงิน</strong> <br>
 
@@ -264,7 +290,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ปีงบประมาณ</strong> <br>
                             <select name="budget" class="form-control" id="budget">
@@ -291,17 +317,27 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-success">ยืนยัน</button>
-                    </div>
+                </div>
+
+                <!-- ปุ้มยืนยัน -->
+                <div class="col-md-6" style="margin-left:34%;margin-top:30px;">
+                    <button type="submit" class="btn" id="btn1">ยืนยัน
+                    </button>
 
                 </div>
+                <div>
+                    <a class="btn btn-outline-danger" href="{{ route('companies.index') }}"
+                        id="back">ย้อนกลับ</a>
+                </div>
+
             </form>
 
         </div>
     </div>
 
 
+
+    <!-- สำหรับการ Select เลขแหล่งเงิน ชื่อแหล่งเงิน และ ปีงบประมาณ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -339,6 +375,33 @@
             });
 
 
+        });
+    </script>
+
+    <!-- สำหรับการ Multi Images -->
+    <!--<script src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>-->
+    <script>
+        $(function() {
+            // Multiple images preview with JavaScript
+            var multiImgPreview = function(input, imgPreviewPlaceholder) {
+                if (input.files) {
+                    var filesAmount = input.files.length;
+                    for (i = 0; i < filesAmount; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function(event) {
+                            $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(
+                                imgPreviewPlaceholder);
+                        }
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+            };
+            $('#images').on('change', function() {
+                multiImgPreview(this, 'div.imgPreview');
+            });
+            $('#cover').on('change', function() {
+                multiImgPreview(this, 'div.coverPreview');
+            });
         });
     </script>
 

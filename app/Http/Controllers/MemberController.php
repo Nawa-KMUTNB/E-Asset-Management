@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cash;
 use App\Models\Company;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -18,6 +20,12 @@ class MemberController extends Controller
     public function edit($id)
     {
         $company = Company::find($id);
-        return view('detail.detail', compact('company'));
+        $cashes = Cash::where('id', $id)->get();
+        $images = Image::where('companies_id', $id)->get();
+        if (!$images->count()) {
+            return redirect()->route('companies.detail')->with('success', 'Images not found');
+        }
+
+        return view('detail.detail', compact(['company', 'cashes', 'images']));
     }
 }
