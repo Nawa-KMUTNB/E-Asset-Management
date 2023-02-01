@@ -108,7 +108,7 @@
                     <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ราคา/หน่วย</strong>
-                            <input type="number" name="per_price" class="form-control" placeholder="ราคา/หน่วย"
+                            <input type="text" name="per_price" class="form-control" placeholder="ราคา/หน่วย"
                                 id="input" />
                             @error('per_price')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -201,18 +201,24 @@
                     <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ฝ่ายที่ครอบครองครุภัณฑ์</strong> <br>
-                            <select name="department" class="form-select" id="input">
+
+                            <select id="input-department" class="form-select" name="department">
                                 <option selected>โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
                                 <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
                                 <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
                             </select>
+
+                            <input type="text" id="other-input" style="display: none;" class="form-control mt-2"
+                                placeholder="โปรดระบุเพิ่มเติม" name="department">
 
                             @error('department')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+
                         </div>
                     </div>
 
@@ -233,7 +239,7 @@
                     <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>เลขแหล่งเงิน</strong> <br>
-                            <select name="code_money" id="code_money" class="form-control dynamic"
+                            <select name="code_money" id="code_money" class="form-select dynamic"
                                 data-dependent="name_money">
                                 <option selected>โปรดเลือกเลขแหล่งเงิน</option>
                                 @foreach ($cashes_list as $cash)
@@ -261,7 +267,7 @@
                         <div class="form-group my-3">
                             <strong>ชื่อแหล่งเงิน</strong> <br>
 
-                            <select name="name_money" id="name_money" class="form-control dynamic"
+                            <select name="name_money" id="name_money" class="form-select dynamic"
                                 data-dependent="budget">
                                 <option value="">โปรดเลือกชื่อแหล่งเงิน</option>
 
@@ -293,7 +299,7 @@
                     <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ปีงบประมาณ</strong> <br>
-                            <select name="budget" class="form-control" id="budget">
+                            <select name="budget" class="form-select" id="budget">
                                 <option value="">โปรดเลือกปีงบประมาณ</option>
                                 <!--
                                 <option value="2551">2551</option>
@@ -405,6 +411,16 @@
         });
     </script>
 
+
+    <script>
+        document.getElementById('input-department').addEventListener('change', function() {
+            if (this.value === 'other') {
+                document.getElementById('other-input').style.display = 'block';
+            } else {
+                document.getElementById('other-input').style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 

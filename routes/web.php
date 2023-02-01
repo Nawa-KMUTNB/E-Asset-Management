@@ -20,7 +20,7 @@ Route::get('pdfCompany', [CRUDController::class, 'pdf']);
 //การค้นหาหน้า Admin
 Route::get('/search', [SearchController::class, 'search'])->name('web.search');
 Route::get('/find', [SearchController::class, 'find'])->name('web.find');
-Route::get('pdfSearchAdmin/{id}', [SearchController::class, 'pdf']);
+Route::get('pdfSearch', [SearchController::class, 'pdf']);
 
 //การค้นหาหน้า Member
 Route::get('/finduser', [SearchController::class, 'finduser'])->name('web.finduser');

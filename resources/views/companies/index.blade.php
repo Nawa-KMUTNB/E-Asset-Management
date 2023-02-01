@@ -32,7 +32,7 @@
                         <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end "><a
                                 href="{{ route('money.create') }}" class="btn btn-primary">เพิ่มครุภัณฑ์</a>
 
-                            <a href="{{ url('pdfCompany') }}" class="btn btn-danger">Convert into PDF</a>
+                            <a href="{{ url('pdfCompany') }}" class="btn btn-danger">PDF</a>
 
                         </div>
 

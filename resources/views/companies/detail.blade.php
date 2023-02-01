@@ -68,7 +68,10 @@
                         <div class="col" style="background-color:#000;color:white;padding:15px">
                             <p><b>หมายเลขครุภัณฑ์เก่า</b> : {{ $company->num_old_asset }} </p>
                             <p><b>ผู้ครอบครองครุภัณฑ์</b> : <br>{{ $company->fullname }} </p>
-                            <p><b>ฝ่ายที่ครอบครองครุภัณฑ์</b> : {{ $company->department }} </p>
+                            <p><b>ฝ่ายที่ครอบครองครุภัณฑ์</b> : @if ($company->department == 'other')
+                                @endif
+                                {{ $company->department == 'other' ? $company->other_department : $company->department }}
+                            </p>
                             <p><b>เลขอัตรา (เลขประจำตำแหน่ง)</b> : {{ $company->num_department }} </p>
                             <p><b>ชื่อ - สกุล ผู้นำเข้าคลัง</b> : {{ $company->name_info }} </p>
                             @foreach ($cashes as $cash)

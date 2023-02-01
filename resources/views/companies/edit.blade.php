@@ -229,16 +229,29 @@
                     <div class="row g-2">
                         <strong>ฝ่ายที่ครอบครองครุภัณฑ์</strong>
                         <div class="col-md-6">
-                            <select name="department" class="form-select" id="input">
-                                <option value="{{ $company->department }}">{{ $company->department }}</option>
+
+                            <select id="input-department" class="form-select" name="department">
+                                <option value="{{ $company->department }}"
+                                    @if ($company->department == 'other') selected @endif>
+                                    {{ $company->department == 'other' ? $company->other_department : $company->department }}
+                                </option>
+
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
                                 <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
                                 <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
                             </select>
                         </div>
 
+                        <div class="col-md-6">
+
+                            <input type="text" id="other-input" style="display: none;" class="form-control mt-2"
+                                placeholder="โปรดระบุเพิ่มเติม" name="other_department">
+
+
+                        </div>
                         @error('department')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -409,6 +422,15 @@
         });
     </script>
 
+    <script>
+        document.querySelector('#input-department').addEventListener('change', function(event) {
+            if (event.target.value === 'other') {
+                document.querySelector('#other-input').style.display = 'block';
+            } else {
+                document.querySelector('#other-input').style.display = 'none';
+            }
+        });
+    </script>
 
 
 

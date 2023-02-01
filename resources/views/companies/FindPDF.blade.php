@@ -25,9 +25,17 @@
                 </div>
 
 
+
+
+
+
                 <form action="{{ route('web.find') }}" method="GET">
 
                     <div class="input-group" style="margin-bottom:10px;">
+
+
+                        <a href="{{ url('pdfSearch', ['query' => $search_text]) }}" class="btn btn-primary">Download
+                            PDF</a>
 
                         <input type="text" style=" border-radius: 10px;margin-top:10px;" class="form-control"
                             name="query" placeholder="ค้นหาครุภัณฑ์" value="{{ request()->input('query') }}"
@@ -42,7 +50,6 @@
                             id="height">ค้นหา</button>
                         <a href="{{ route('companies.index') }}" class="btn btn-outline-danger"
                             style="margin-top:10px;border-radius:10px; "id="height">ล้างการค้นหา </a>
-
 
                     </div>
                 </form>
@@ -69,7 +76,6 @@
                         <th>สถานะ</th>
                         <th>หมายเลขครุภัณฑ์เก่า</th>
                         <th>รูปภาพปก</th>
-                        <th width="220px">Action</th>
                     </tr>
                 </thead>
                 @foreach ($companies as $company)
@@ -90,16 +96,6 @@
                         <td>
                             <img src="/cover/{{ $company->cover }}" class="img-responsive"
                                 style="max-height: 150px; max-width:150px" alt="">
-                        </td>
-                        <td>
-                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                <input type="hidden" name="id" value="{{ $company->id }}">
-                                <a href="{{ url('pdfSearchAdmin', $company->id) }}" class="btn btn-success">PDF</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-warning">Print</button>
-
-                            </form>
                         </td>
                     </tr>
                 @endforeach

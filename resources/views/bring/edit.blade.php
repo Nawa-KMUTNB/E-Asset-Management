@@ -124,16 +124,20 @@
                     <div class="row g-2">
                         <strong>ฝ่ายที่เบิก</strong>
                         <div class="col-md-12">
-                            <select name="department" class="form-select" id="input">
+                            <select name="department" class="form-select" id="bring-department">
                                 <option value="{{ $brings->department }}">{{ $brings->department }}</option>
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
                                 <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
                                 <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
+
                             </select>
                         </div>
 
+                        <input type="text" id="other-bring" style="display: none;" class="form-control"
+                            name="department" placeholder="โปรดระบุเพิ่มเติม">
 
                         @error('department')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -178,9 +182,20 @@
 
         </div>
     </div>
-</body>
-<footer style="margin-top: 80px">
 
-</footer>
+
+    <script>
+        document.getElementById('bring-department').addEventListener('change', function() {
+            if (this.value === 'other') {
+                document.getElementById('other-bring').style.display = 'block';
+            } else {
+                document.getElementById('other-bring').style.display = 'none';
+            }
+        });
+    </script>
+
+
+
+</body>
 
 </html>

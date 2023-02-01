@@ -21,8 +21,12 @@
 </head>
 
 <body>
+    <p style="text-align: center; font-size: 30px">
+        ข้อมูลครุภัณฑ์ทั้งหมด
+    </p>
+
     <table style="border-collapse: collapse; width: 100%;" border="0">
-        <tr>
+        <tr style="text-align: center">
             <td style="border: 1px solid; padding:10px;" width:20%>หมายเลขครุภัณฑ์</td>
             <td style="border: 1px solid; padding:10px;" width:10%>วันที่รับเข้าคลัง</td>
             <td style="border: 1px solid; padding:10px;" width:10%>ชื่อครุภัณฑ์</td>
@@ -35,7 +39,7 @@
         </tr>
 
         @foreach ($companies as $company)
-            <tr>
+            <tr style="text-align: left">
                 <td style="border: 1px solid; padding:10px;"> {{ $company->num_asset }} </td>
                 <td style="border: 1px solid; padding:10px;"> {{ $company->date_into }} </td>
                 <td style="border: 1px solid; padding:10px;"> {{ $company->name_asset }} </td>

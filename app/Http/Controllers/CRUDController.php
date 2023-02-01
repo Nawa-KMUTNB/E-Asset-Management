@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use LDAP\Result;
 use Storage;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class CRUDController extends Controller
 {
@@ -67,14 +69,19 @@ class CRUDController extends Controller
             'detail' => 'required|string|max:255',
             'unit' =>   'required|string|max:60',
             'place' => 'required|string|max:255',
-            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
+            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})$/',
             'status_buy' => 'required|string|max:255',
             //'num_old_asset' => 'required|string|regex:/^\d{3}(\-)\d{2}(\-)\d{1}(\-)(\d{1}\/\d{5})$/',
             'num_old_asset' => 'required|string|max:255',
             'fullname' => 'required|string|max:255',
-            'department' => 'sometimes|required|string',
+
+            // 'department' => 'required_if:select_field,selected_value',
+            //'department' => 'required|in:selected_value1,selected_value2,selected_value3,selected_value4,selected_value5,,selected_other',
+            //'department' => 'required',
+
             'name_info' => 'required|string|max:255',
             'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
+
         ]);
 
 
@@ -90,7 +97,6 @@ class CRUDController extends Controller
             $file->move(\public_path("/cover"), $company->cover);
             $request['cover'] = $company->cover;
         }
-
 
 
         //Cash Update (อัพเดทตาราง Cash ของแหล่งเงิน ชื่อแหล่งเงิน งบประจำปี)
@@ -112,7 +118,7 @@ class CRUDController extends Controller
         //-------------------------------------------------------------------
 
 
-
+        /*
         $company->update([
             "num_asset" => $request->num_asset,
             "date_into" => $request->date_into,
@@ -129,6 +135,42 @@ class CRUDController extends Controller
             "num_department" => $request->num_department,
             //"cover" => $request->cover,
         ]);
+*/
+
+        $validator = Validator::make($request->all(), [
+            'department' => 'required',
+            'other_department' => 'required_if:department,other',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $company->num_asset = $request->input('num_asset');
+        $company->date_into = $request->input('date_into');
+        $company->name_asset = $request->input('name_asset');
+        $company->detail = $request->input('detail');
+        $company->unit = $request->input('unit');
+        $company->place = $request->input('place');
+        $company->per_price = $request->input('per_price');
+        $company->status_buy = $request->input('status_buy');
+        $company->num_old_asset = $request->input('num_old_asset');
+        $company->fullname = $request->input('fullname');
+
+
+        if ($request->input('department') === 'other') {
+            $company->other_department = $request->input('other_department');
+        } else {
+            $company->department = $request->input('department');
+        }
+
+
+        $company->name_info = $request->input('name_info');
+        $company->num_department = $request->input('num_department');
+
+        $company->update();
 
         if ($request->hasFile("images")) {
             $files = $request->file("images");
@@ -171,7 +213,7 @@ class CRUDController extends Controller
     function get_companies()
     {
         $companies = DB::table('companies')
-            ->limit(10)
+
             ->get();
         return $companies;
     }
@@ -231,6 +273,7 @@ class CRUDController extends Controller
       ';
         }
         $output .= '</table>';
-        return $output;   */
+        return $output;   
+        */
     }
 }

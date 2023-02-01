@@ -53,6 +53,29 @@
     height: 45px;
 }
 
+
+#input-department {
+    border-radius: 30px;
+    height: 45px;
+}
+
+
+#other-input {
+    border-radius: 30px;
+    height: 45px;
+}
+
+
+#bring-department {
+    border-radius: 30px;
+    height: 45px;
+}
+
+#other-bring {
+    border-radius: 30px;
+    height: 45px;
+}
+
 #cover {
     border-radius: 30px;
     height: 45px;

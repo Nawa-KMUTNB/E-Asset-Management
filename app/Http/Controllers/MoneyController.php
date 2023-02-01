@@ -12,7 +12,8 @@ use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use DB;
-
+use Illuminate\Validation\Rule;
+use Validator;
 
 class MoneyController extends Controller
 {
@@ -56,16 +57,23 @@ class MoneyController extends Controller
             'detail' => 'required|string|max:255',
             'unit' =>   'required|string|max:60',
             'place' => 'required|string|max:255',
-            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
+            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})$/',
             'status_buy' => 'required|string|max:255',
             //'num_old_asset' => 'required|string|regex:/^\d{3}(\-)\d{2}(\-)\d{1}(\-)(\d{1}\/\d{5})$/',
             'num_old_asset' => 'required|string|max:255',
             'fullname' => 'required|string|max:255',
-            'department' => 'sometimes|required|string',
+
+            // 'department' => 'required_if:select_field,selected_value',
+            //'department' => 'required|in:selected_value1,selected_value2,selected_value3,selected_value4,selected_value5,,selected_other',
+            //'department' => 'required',
+
             'name_info' => 'required|string|max:255',
             'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
-        ]);
 
+            'code_money' => 'required',
+            'name_money' => 'required',
+            'budget' => 'required',
+        ]);
 
 
         if ($request->hasFile("cover")) {
@@ -91,7 +99,10 @@ class MoneyController extends Controller
             $company->status_buy = $request->input('status_buy');
             $company->num_old_asset = $request->input('num_old_asset');
             $company->fullname = $request->input('fullname');
+
             $company->department = $request->input('department');
+            $company->department = Rule::requiredIf($request->input('department') === 'department');
+
             $company->name_info = $request->input('name_info');
             $company->num_department = $request->input('num_department');
             $company->cover = $imageName;

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class SearchController extends Controller
 {
@@ -51,6 +53,7 @@ class SearchController extends Controller
 
     function find(Request $request)
     {
+
         $request->validate([
             'query' => 'required'
         ]);
@@ -63,9 +66,22 @@ class SearchController extends Controller
             ->orWhere('num_old_asset', 'LIKE', "%$search_text%")
             ->orWhere('place', 'LIKE', "%$search_text%")
             ->orWhere('num_department', 'LIKE', "%$search_text%")
-            ->paginate(10);
+            // ->paginate(10);
+            ->get();
 
-        return view('companies.searchAdmin', ['companies' => $companies]);
+
+        $users = User::where('name', 'LIKE', "%$search_text%")
+            ->orWhere('num_position', 'LIKE', "%$search_text%")
+            ->orWhere('position', 'LIKE', "%$search_text%")
+            ->orWhere('department', 'LIKE', "%$search_text%")
+            ->orWhere('task', 'LIKE', "%$search_text%")
+            ->get();
+
+        //$company = Company::query($search_text);
+
+        $pdf = PDF::loadView('PDF.findAdmin', ['companies' => $companies, 'users' => $users]);
+        return $pdf->stream();
+        // return view('companies.FindPDF')->with(['companies' => $companies, 'search_text' => $search_text, 'company' => $company]);
     }
 
     //การค้นหาหน้า Memebr หน้าหลัก
@@ -88,26 +104,49 @@ class SearchController extends Controller
     }
 
 
-
+    /*
     function get_companies()
     {
         $companies = DB::table('companies')
-            ->limit(10)
             ->get();
         return $companies;
     }
-
+*/
     function pdf(Request $request)
     {
-        $id = $request->id;
+
+        /*
+        $search_text = $request->input('query');
+        $companies = DB::table('companies')
+            ->where('num_asset', 'LIKE', "%$search_text%")
+            ->orWhere('name_asset', 'LIKE', "%$search_text%")
+            ->orWhere('fullname', 'LIKE', "%$search_text%")
+            ->orWhere('department', 'LIKE', "%$search_text%")
+            ->orWhere('num_old_asset', 'LIKE', "%$search_text%")
+            ->orWhere('place', 'LIKE', "%$search_text%")
+            ->orWhere('num_department', 'LIKE', "%$search_text%")
+            ->get();
+
+
+        $company = Company::query($search_text);
+
+        $pdf = PDF::loadView('PDF.searchAdmin', ['companies' => $companies, 'search_text' => $search_text, 'company' => $company]);
+*/
+
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($this->convert_companies_to_html($id));
+        $pdf->loadHTML($this->convert_companies_to_html($request));
         return $pdf->stream();
     }
+    /*
+    $pdf = \App::make('dompdf.wrapper');
+    $pdf->loadHTML($this->convert_companies_to_html($request));
+    return $pdf->stream();
+*/
 
-    function convert_companies_to_html($id)
+    function convert_companies_to_html(Request $request)
     {
-        $companies = Company::find($id);
-        return view('PDF.searchAdmin')->with('companies', $companies);
+        $search_text = $request->input('query');
+        $companies = Company::query($search_text);
+        return view('PDF.searchAdmin')->with(['companies' => $companies, 'search_text' => $search_text]);
     }
 }

@@ -40,7 +40,7 @@ class BringController extends Controller
             'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
             'num_sent' => 'required|string|max:255',
             'Date_into' => 'required|date',
-            'department' => 'sometimes|required|string',
+            'department' => 'required_if:select_field,selected_value',
             'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
             'place' => 'required|string|max:255',
         ]);
@@ -58,21 +58,7 @@ class BringController extends Controller
         $brings->department = $request->input('department');
         $brings->num_department = $request->input('num_department');
         $brings->place = $request->input('place');
-        /*
-        if ($request->hasFile('pic')) {
-            $uploadFile = 'upload/brings/';
 
-            foreach ($request->file('pic') as $picFile) {
-                $extention = $picFile->getClientOriginalExtension();
-                $fileName = time() . '.' . $extention;
-                $picFile->move($uploadFile, $fileName);
-                $finalImageFile = $uploadFile . '-' . $fileName;
-                $brings->pic->create([
-                    'pic' => $finalImageFile,
-                ]);
-            }
-        }
-        */
         $brings->save();
 
         return redirect()->route('bring.index')->with('success', 'เพิ่มการเบิกครุภัณฑ์สำเร็จแล้ว');
@@ -103,8 +89,23 @@ class BringController extends Controller
             'place' => 'required|string|max:255',
         ]);
 
+        $brings = Bring::find($id);
+        $brings->update([
+            "FullName" => $request->FullName,
+            "date_bring" => $request->date_bring,
+            "detail" => $request->detail,
+            "num_asset" => $request->num_asset,
+            "name_asset" => $request->name_asset,
+            "per_price" => $request->per_price,
+            "num_sent" => $request->num_sent,
+            "Date_into" => $request->Date_into,
+            "department" => $request->department,
+            "num_department" => $request->num_department,
+            "place" => $request->place,
+        ]);
 
 
+        /*
         $brings = Bring::find($id);
         $brings->FullName = $request->input('FullName');
         $brings->date_bring = $request->input('date_bring');
@@ -117,23 +118,8 @@ class BringController extends Controller
         $brings->department = $request->input('department');
         $brings->num_department = $request->input('num_department');
         $brings->place = $request->input('place');
-        /*
-        if ($request->hasFile('pic')) {
-            $uploadFile = 'upload/brings/';
-
-            foreach ($request->file('pic') as $picFile) {
-                $extention = $picFile->getClientOriginalExtension();
-                $fileName = time() . '.' . $extention;
-                $picFile->move($uploadFile, $fileName);
-                $finalImageFile = $uploadFile . '-' . $fileName;
-                $brings->pic->create([
-                    'pic' => $finalImageFile,
-                ]);
-            }
-        }
-        */
-
         $brings->update();
+        */
         return redirect()->route('bring.index')->with('success', 'แก้ไขการเบิกครุภัณฑ์สำเร็จแล้ว');
     }
 
@@ -141,12 +127,6 @@ class BringController extends Controller
     public function destroy($id)
     {
         $brings = Bring::find($id);
-        /*
-        $destination = 'upload/companies/' . $brings->pic;
-        if (File::exists($destination)) {
-            File::delete($destination);
-        }
-        */
         $brings->delete();
         return redirect()->route('bring.index')->with('success', 'ลบการเบิกครุภัณฑ์สำเร็จแล้ว');
     }

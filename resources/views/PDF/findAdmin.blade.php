@@ -16,11 +16,15 @@
 
         body {
             font-family: "THSarabunNew";
+
         }
     </style>
 </head>
 
 <body>
+    @foreach ($users as $user)
+        <p style="text-align: center; font-size:2em; ">ข้อมูลครุภัณฑ์ของ {{ $user->name }}</p>
+    @endforeach
     <table style="border-collapse: collapse; width: 100%;">
         <tr>
             <td style="border: 1px solid; padding:10px;" width:20%>หมายเลขครุภัณฑ์</td>

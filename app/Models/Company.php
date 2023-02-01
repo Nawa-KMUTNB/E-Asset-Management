@@ -27,6 +27,7 @@ class Company extends Model
 
         "fullname",
         "department",
+        "other_department",
         "name_info",
         "num_department",
         "budget",
