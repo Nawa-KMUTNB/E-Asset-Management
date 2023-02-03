@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>แก้ไขครุภัณฑ์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="../../css/main2.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 
 </head>
@@ -25,6 +27,8 @@
                     {{ sesssion('status') }}
                 </div>
             @endif
+
+
             <form action=" {{ route('companies.update', $company->id) }}" method="POST" enctype="multipart/form-data"
                 id="border3">
                 @csrf
@@ -172,8 +176,11 @@
                             <strong>รูปภาพปก</strong>
                             <input type="file" name="cover" class="form-control" id="cover">
 
-                            <img src="/cover/{{ $company->cover }}" class="img-responsive"
-                                style="max-height: 100px; max-width: 100px;" alt="" srcset="">
+                            <div class="mt-2">
+
+                                <img src="/cover/{{ $company->cover }}" class="img-responsive"
+                                    style="max-height: 150px; max-width: 150px;" alt="Cover">
+                            </div>
 
 
                             @error('cover')
@@ -186,18 +193,49 @@
                     </div>
 
 
-
-
-                    <!-- รูปภาพ -->
+                    <!-- รูปภาพเพิ่มเติม -->
                     <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>รูปภาพเพิ่มเติม</strong>
                             <input type="file" name="images[]" class="form-control" multiple id="images">
 
-                            @foreach ($images as $img)
-                                <img src="/images/{{ $img->image }}" class="img-responsive" width="150px"
-                                    heigth="150px" class="img-responsive" alt="Image">
-                            @endforeach
+
+                            @if (count($images) > 0)
+                                @foreach ($images as $img)
+                                    <div class="col-md-2">
+
+                                        <a href="#" class="btn text-danger"
+                                            onclick="deleteImage({{ $img->id }})">X</a>
+
+                                        <script>
+                                            function deleteImage(id) {
+                                                if (confirm("คุณต้องการลบรูปนี้ใช่ไหม?")) {
+                                                    $.ajaxSetup({
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        }
+                                                    });
+                                                    $.ajax({
+                                                        url: "{{ route('destroyImg', ['id' => ':id']) }}".replace(':id', id),
+                                                        method: 'DELETE',
+                                                        success: function(result) {
+                                                            alert("ลบรูปสำเร็จ!");
+                                                            location.reload();
+                                                        },
+                                                        error: function(xhr, status, error) {
+                                                            alert("An error occurred: " + error);
+                                                        }
+                                                    });
+
+                                                }
+                                            }
+                                        </script>
+
+                                        <img src="/images/{{ $img->image }}" class="img-responsive" alt="Image"
+                                            style="max-height: 150px; max-width: 150px;">
+                                    </div>
+                                @endforeach
+                            @endif
 
 
                             @error('images')
@@ -225,6 +263,21 @@
                     </div>
 
 
+                    <!-- เลขอัตรา (เลขประจำตำแหน่ง) -->
+                    <div class="col-md-6">
+                        <div class="form-group my-3">
+                            <strong>เลขอัตรา (เลขประจำตำแหน่ง)</strong>
+                            <input type="text" name="num_department" class="form-control"
+                                value="{{ $company->num_department }}" placeholder="เลขอัตรา (เลขประจำตำแหน่ง)"
+                                id="input" />
+                            @error('num_department')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+
+
                     <!-- ฝ่ายที่ครอบครองครุภัณฑ์ -->
                     <div class="row g-2">
                         <strong>ฝ่ายที่ครอบครองครุภัณฑ์</strong>
@@ -232,8 +285,8 @@
 
                             <select id="input-department" class="form-select" name="department">
                                 <option value="{{ $company->department }}"
-                                    @if ($company->department == 'other') selected @endif>
-                                    {{ $company->department == 'other' ? $company->other_department : $company->department }}
+                                    @if ($company->department == 'other' && isset($company->other_department)) selected @endif>
+                                    {{ $company->department == 'other' && isset($company->other_department) ? $company->other_department : $company->department }}
                                 </option>
 
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
@@ -255,20 +308,6 @@
                         @error('department')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                    </div>
-
-
-                    <!-- เลขอัตรา (เลขประจำตำแหน่ง) -->
-                    <div class="col-md-6">
-                        <div class="form-group my-3">
-                            <strong>เลขอัตรา (เลขประจำตำแหน่ง)</strong>
-                            <input type="text" name="num_department" class="form-control"
-                                value="{{ $company->num_department }}" placeholder="เลขอัตรา (เลขประจำตำแหน่ง)"
-                                id="input" />
-                            @error('num_department')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
                     </div>
 
 
@@ -340,7 +379,7 @@
 
 
                 </div>
-                <div class="col-md-12" style="margin-left:34%;margin-top:40px;">
+                <div class="col-md-12 text-center mt-1">
                     <button type="submit" class="btn mt-2" id="btn2">ยืนยัน</button>
                 </div>
                 <div>
@@ -353,8 +392,10 @@
     </div>
 
 
+
+
+
     <!-- การเลือกของ เลขแหล่งเงิน -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
 

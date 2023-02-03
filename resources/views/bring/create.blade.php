@@ -85,7 +85,7 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ราคา/หน่วย</strong>
-                            <input type="number" name="per_price" class="form-control" placeholder="ราคา/หน่วย" />
+                            <input type="text" name="per_price" class="form-control" placeholder="ราคา/หน่วย" />
                             @error('per_price')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -117,14 +117,19 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ฝ่ายที่เบิก</strong> <br>
-                            <select name="department" class="form-select" id="input">
-                                <option selected>โปรดเลือกฝ่ายที่เบิก</option>
+                            <select name="department" class="form-select" id="bring-department">
+                                <option selected>โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
                                 <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
                                 <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
                             </select>
+
+                            <input type="text" id="other-input" style="display: none;" class="form-control mt-2"
+                                placeholder="โปรดระบุเพิ่มเติม" name="other_department">
+
 
                             @error('department')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -168,8 +173,18 @@
 
         </div>
     </div>
+
+    <script>
+        document.getElementById('bring-department').addEventListener('change', function() {
+            if (this.value === 'other') {
+                document.getElementById('other-input').style.display = 'block';
+            } else {
+                document.getElementById('other-input').style.display = 'none';
+            }
+        });
+    </script>
+
+
 </body>
-<footer style="margin-top: 80px">
-</footer>
 
 </html>

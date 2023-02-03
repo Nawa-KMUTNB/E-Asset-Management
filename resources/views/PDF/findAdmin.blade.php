@@ -23,9 +23,11 @@
 
 <body>
     @foreach ($users as $user)
-        <p style="text-align: center; font-size:2em; ">ข้อมูลครุภัณฑ์ของ {{ $user->name }}</p>
+        <p style="text-align: center; font-size:1.85rem; ">ข้อมูลครุภัณฑ์ของ {{ $user->name }} <br>
+            เลขประจำตำแหน่ง {{ $user->num_position }}</p>
+        <p style="text-align: center; font-size:1.85rem; "></p>
     @endforeach
-    <table style="border-collapse: collapse; width: 100%;">
+    <table style="border-collapse: collapse; width: 100%; font-size: 18px">
         <tr>
             <td style="border: 1px solid; padding:10px;" width:20%>หมายเลขครุภัณฑ์</td>
             <td style="border: 1px solid; padding:10px;" width:10%>วันที่รับเข้าคลัง</td>

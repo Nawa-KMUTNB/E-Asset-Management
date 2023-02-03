@@ -44,13 +44,14 @@
                     <div class="row">
                         <div class="col mt-1 text-center">
                             <h4>รูปภาพปก</h4><br>
-                            <img src="{{ asset('/cover/' . $company->cover) }}" width="250px" class="border"
-                                alt="Image">
+                            <img src="{{ asset('/cover/' . $company->cover) }}" style="max-height: 250px; max-width:250px"
+                                class="border border-2 border-secondary mt-1" alt="Image">
                         </div>
                         <div class="col mt-1 text-center">
                             <h4>รูปภาพ</h4> <br>
                             @foreach ($images as $img)
-                                <img src="/images/{{ $img->image }}" width="470px" class="border" alt="Image">
+                                <img src="/images/{{ $img->image }}" style="max-height: 250px; max-width:250px"
+                                    class="border border-2 border-secondary mt-1" alt="Image">
                             @endforeach
                         </div>
 
@@ -68,9 +69,8 @@
                         <div class="col" style="background-color:#000;color:white;padding:15px">
                             <p><b>หมายเลขครุภัณฑ์เก่า</b> : {{ $company->num_old_asset }} </p>
                             <p><b>ผู้ครอบครองครุภัณฑ์</b> : <br>{{ $company->fullname }} </p>
-                            <p><b>ฝ่ายที่ครอบครองครุภัณฑ์</b> : @if ($company->department == 'other')
-                                @endif
-                                {{ $company->department == 'other' ? $company->other_department : $company->department }}
+                            <p><b>ฝ่ายที่ครอบครองครุภัณฑ์</b> :
+                                {{ $company->department == 'other' && isset($company->other_department) ? $company->other_department : $company->department }}
                             </p>
                             <p><b>เลขอัตรา (เลขประจำตำแหน่ง)</b> : {{ $company->num_department }} </p>
                             <p><b>ชื่อ - สกุล ผู้นำเข้าคลัง</b> : {{ $company->name_info }} </p>

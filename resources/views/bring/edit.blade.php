@@ -125,7 +125,11 @@
                         <strong>ฝ่ายที่เบิก</strong>
                         <div class="col-md-12">
                             <select name="department" class="form-select" id="bring-department">
-                                <option value="{{ $brings->department }}">{{ $brings->department }}</option>
+                                <option value="{{ $brings->department }}"
+                                    @if ($brings->department == 'other' && isset($brings->other_department)) selected @endif>
+                                    {{ $brings->department == 'other' && isset($brings->other_department) ? $brings->other_department : $brings->department }}
+                                </option>
+
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
@@ -136,8 +140,8 @@
                             </select>
                         </div>
 
-                        <input type="text" id="other-bring" style="display: none;" class="form-control"
-                            name="department" placeholder="โปรดระบุเพิ่มเติม">
+                        <input type="text" id="other-input" style="display: none;" class="form-control mt-2"
+                            placeholder="โปรดระบุเพิ่มเติม" name="other_department">
 
                         @error('department')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -187,9 +191,9 @@
     <script>
         document.getElementById('bring-department').addEventListener('change', function() {
             if (this.value === 'other') {
-                document.getElementById('other-bring').style.display = 'block';
+                document.getElementById('other-input').style.display = 'block';
             } else {
-                document.getElementById('other-bring').style.display = 'none';
+                document.getElementById('other-input').style.display = 'none';
             }
         });
     </script>

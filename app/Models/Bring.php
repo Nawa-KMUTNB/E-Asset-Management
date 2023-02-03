@@ -20,6 +20,7 @@ class Bring extends Model
         "num_sent",
         "date_into",
         "department",
+        "other_department",
         "num_department",
         "place"
     ];

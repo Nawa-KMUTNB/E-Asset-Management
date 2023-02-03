@@ -56,7 +56,8 @@
                                 <a href="{{ route('user.edit', $users->id) }}" class="btn btn-warning">แก้ไขผู้ใช้งาน</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">ลบผู้ใช้งาน</button>
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('ยืนยันการลบผู้ใช้งาน?')">ลบผู้ใช้งาน</button>
 
                             </form>
                         </td>

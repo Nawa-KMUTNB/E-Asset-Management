@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Validator;
 
 
 class BringController extends Controller
@@ -40,10 +41,21 @@ class BringController extends Controller
             'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
             'num_sent' => 'required|string|max:255',
             'Date_into' => 'required|date',
-            'department' => 'required_if:select_field,selected_value',
+            //'department' => 'required_if:select_field,selected_value',
             'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
             'place' => 'required|string|max:255',
         ]);
+
+        $validator = Validator::make($request->all(), [
+            'department' => 'required',
+            'other_department' => 'required_if:department,other',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
 
         $brings = new Bring;
@@ -55,7 +67,11 @@ class BringController extends Controller
         $brings->per_price = $request->input('per_price');
         $brings->num_sent = $request->input('num_sent');
         $brings->Date_into = $request->input('Date_into');
+
         $brings->department = $request->input('department');
+        $brings->other_department = $request->input('other_department') ?: '';
+
+
         $brings->num_department = $request->input('num_department');
         $brings->place = $request->input('place');
 
@@ -84,11 +100,24 @@ class BringController extends Controller
             'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})?$/',
             'num_sent' => 'required|string|max:255',
             'Date_into' => 'required|date',
-            'department' => 'required_if:select_field,selected_value',
+            // 'department' => 'required_if:select_field,selected_value',
             'num_department' => 'required|string|regex:/^[0-9]{3,5}$/',
             'place' => 'required|string|max:255',
         ]);
 
+        $validator = Validator::make($request->all(), [
+            'department' => 'required',
+            'other_department' => 'required_if:department,other',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+        /*
         $brings = Bring::find($id);
         $brings->update([
             "FullName" => $request->FullName,
@@ -99,13 +128,16 @@ class BringController extends Controller
             "per_price" => $request->per_price,
             "num_sent" => $request->num_sent,
             "Date_into" => $request->Date_into,
+
             "department" => $request->department,
+            
+
             "num_department" => $request->num_department,
             "place" => $request->place,
         ]);
+*/
 
 
-        /*
         $brings = Bring::find($id);
         $brings->FullName = $request->input('FullName');
         $brings->date_bring = $request->input('date_bring');
@@ -115,11 +147,17 @@ class BringController extends Controller
         $brings->per_price = $request->input('per_price');
         $brings->num_sent = $request->input('num_sent');
         $brings->Date_into = $request->input('Date_into');
-        $brings->department = $request->input('department');
+
+        $brings->department = $request->department;
+        if ($request->department == 'other') {
+            $brings->other_department = $request->other_department;
+        }
+
+
         $brings->num_department = $request->input('num_department');
         $brings->place = $request->input('place');
         $brings->update();
-        */
+
         return redirect()->route('bring.index')->with('success', 'แก้ไขการเบิกครุภัณฑ์สำเร็จแล้ว');
     }
 

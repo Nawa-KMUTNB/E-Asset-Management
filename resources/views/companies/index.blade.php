@@ -85,7 +85,7 @@
                         <td>
                             <a href="{{ route('detail_companies.edit', $company->id) }}" class="text-primary">รายละเอียด</a>
                         </td>
-                        <td>{{ $company->id }}</td>
+                        <td>{{ $company->id }} </td>
                         <td>{{ $company->num_asset }}</td>
                         <td>{{ $company->date_into }}</td>
                         <td>{{ $company->name_asset }}</td>
@@ -100,14 +100,19 @@
                                 style="max-height: 150px; max-width:150px" alt="">
                         </td>
                         <td>
+
                             <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+
                                 <a href="{{ route('companies.edit', $company->id) }}"
                                     class="btn btn-warning">แก้ไขครุภัณฑ์</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">ลบครุภัณฑ์</button>
+
+                                <button class="btn btn-danger" type="submit"
+                                    onclick="return confirm('ยืนยันการลบข้อมูลครุภัณฑ์?')">ลบครุภัณฑ์</button>
 
                             </form>
+
                         </td>
                     </tr>
                 @endforeach
@@ -117,6 +122,7 @@
 
         </div>
     @endsection
+
 
 </body>
 

@@ -22,9 +22,9 @@
 
                 <form action="{{ route('web.search') }}" method="GET">
 
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom: 10px">
                         <div class="mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end ">
-                            <a href="{{ route('bring.create') }}" class="btn btn-info">เพิ่มการเบิกครุภัณฑ์</a>
+                            <a href="{{ route('bring.create') }}" class="btn btn-info ">เพิ่มการเบิกครุภัณฑ์</a>
                         </div>
 
                         <input type="text" style=" border-radius: 10px;margin-top:10px;" class="form-control"
@@ -84,7 +84,9 @@
                         <td>{{ $bring->per_price }}</td>
                         <td>{{ $bring->num_sent }}</td>
                         <td>{{ $bring->Date_into }}</td>
-                        <td>{{ $bring->department }}</td>
+                        <td>
+                            {{ $bring->department == 'other' && isset($bring->other_department) ? $bring->other_department : $bring->department }}
+                        </td>
                         <td>{{ $bring->num_department }}</td>
                         <td>{{ $bring->place }}</td>
 
@@ -94,7 +96,8 @@
                                     class="btn btn-warning">แก้ไขการเบิกครุภัณฑ์</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger mt-1">ลบการเบิกครุภัณฑ์</button>
+                                <button type="submit" class="btn btn-danger mt-1"
+                                    onclick="return confirm('ยืนยันการลบการเบิกครุภัณฑ์?');">ลบการเบิกครุภัณฑ์</button>
 
                             </form>
                         </td>

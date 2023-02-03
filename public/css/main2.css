@@ -23,15 +23,14 @@
     background-color: rgb(71, 71, 71);
     box-shadow: 5px 20px 40px black;
     width: 1200px;
-    height: 1660px;
+    height: auto;
     margin-left: 70px;
     margin-top: 30px;
-    margin-bottom: 120px;
+    border-radius: 1.25rem;
 }
 
 #border4 {
-    margin: 10px;
-    margin-top: 50px;
+    margin: 25px;
 
     background-color: rgb(251, 255, 188);
     border-radius: 20px;

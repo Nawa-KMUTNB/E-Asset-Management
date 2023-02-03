@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Money;
-use APP\Http\Requests\CompanyFormRequest;
-use App\Models\Cash;
 use App\Models\Chips;
 use App\Models\Company;
 use App\Models\Image;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use DB;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\File;
 use Validator;
 
 class MoneyController extends Controller
@@ -76,6 +72,19 @@ class MoneyController extends Controller
         ]);
 
 
+        $validator = Validator::make($request->all(), [
+            'department' => 'required',
+            'other_department' => 'required_if:department,other',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+
         if ($request->hasFile("cover")) {
             $file = $request->file("cover");
             $imageName = time() . '_' . $file->getClientOriginalName();
@@ -101,7 +110,7 @@ class MoneyController extends Controller
             $company->fullname = $request->input('fullname');
 
             $company->department = $request->input('department');
-            $company->department = Rule::requiredIf($request->input('department') === 'department');
+            $company->other_department = $request->input('other_department') ?: '';
 
             $company->name_info = $request->input('name_info');
             $company->num_department = $request->input('num_department');

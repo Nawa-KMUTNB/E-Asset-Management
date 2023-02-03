@@ -213,7 +213,8 @@
                             </select>
 
                             <input type="text" id="other-input" style="display: none;" class="form-control mt-2"
-                                placeholder="โปรดระบุเพิ่มเติม" name="department">
+                                placeholder="โปรดระบุเพิ่มเติม" name="other_department">
+
 
                             @error('department')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -245,16 +246,6 @@
                                 @foreach ($cashes_list as $cash)
                                     <option value="{{ $cash->code_money }}">{{ $cash->code_money }}</option>
                                 @endforeach
-                                <!--
-                                <option value="101010">101010</option>
-                                <option value="201030">201030</option>
-                                <option value="203010">203010</option>
-                                <option value="203090">203090</option>
-                                <option value="206010">206010</option>
-                                <option value="206031">206031</option>
-                                <option value="901010">901010</option>
-                                <option value="906011">906011</option>
-                                -->
                             </select>
 
                             @error('code_money')

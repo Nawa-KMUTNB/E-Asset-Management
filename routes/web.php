@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\BringController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CRUDController;
@@ -11,8 +12,16 @@ use App\Http\Controllers\MoneyController;
 use App\Http\Controllers\SearchController;
 
 
+
 //หน้าแรก Admin
 Route::resource('companies', CRUDController::class);
+Route::delete('companies/{id}', 'CRUDController@destroy')->name('companies.destroy');
+
+
+Route::delete('destroyImg/{id}', [CRUDController::class, 'destroyImg'])->name('destroyImg');
+
+
+
 Route::get('pdfCompany', [CRUDController::class, 'pdf']);
 
 

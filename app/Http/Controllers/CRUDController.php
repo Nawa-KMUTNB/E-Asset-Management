@@ -84,8 +84,6 @@ class CRUDController extends Controller
 
         ]);
 
-
-
         $company = Company::find($id);
 
         if ($request->hasFile("cover")) {
@@ -117,26 +115,6 @@ class CRUDController extends Controller
         }
         //-------------------------------------------------------------------
 
-
-        /*
-        $company->update([
-            "num_asset" => $request->num_asset,
-            "date_into" => $request->date_into,
-            "name_asset" => $request->name_asset,
-            "detail" => $request->detail,
-            "unit" => $request->unit,
-            "place" => $request->place,
-            "per_price" => $request->per_price,
-            "status_buy" => $request->status_buy,
-            "num_old_asset" => $request->num_old_asset,
-            "fullname" => $request->fullname,
-            "department" => $request->department,
-            "name_info" => $request->name_info,
-            "num_department" => $request->num_department,
-            //"cover" => $request->cover,
-        ]);
-*/
-
         $validator = Validator::make($request->all(), [
             'department' => 'required',
             'other_department' => 'required_if:department,other',
@@ -160,10 +138,9 @@ class CRUDController extends Controller
         $company->fullname = $request->input('fullname');
 
 
-        if ($request->input('department') === 'other') {
-            $company->other_department = $request->input('other_department');
-        } else {
-            $company->department = $request->input('department');
+        $company->department = $request->department;
+        if ($request->department == 'other') {
+            $company->other_department = $request->other_department;
         }
 
 
@@ -188,6 +165,7 @@ class CRUDController extends Controller
 
     public function destroy($id)
     {
+
         $company = Company::find($id);
         $destination = 'cover/' . $company->cover;
         if (File::exists($destination)) {
@@ -201,9 +179,10 @@ class CRUDController extends Controller
             }
             $image->delete();
         }
-        $company->delete();
 
         $cash = Chips::find($id);
+
+        $company->delete();
         $cash->delete();
 
         return redirect()->route('companies.index')->with('success', 'ลบครุภัณฑ์สำเร็จแล้ว');
@@ -275,5 +254,16 @@ class CRUDController extends Controller
         $output .= '</table>';
         return $output;   
         */
+    }
+
+
+    public function destroyImg($id)
+    {
+        $images = Image::findOrFail($id);
+        if (File::exists("images/" . $images->image)) {
+            File::delete("images/" . $images->image);
+        }
+        $images->delete();
+        return response()->json(['success' => 'Image deleted successfully']);
     }
 }
