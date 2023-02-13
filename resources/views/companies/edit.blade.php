@@ -328,7 +328,9 @@
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="code_money" class="form-control" disabled
-                                value="{{ $cash->code_money }}" id="input">
+                                value="{{ $cash->code_money && $cash->otherCode ? $cash->otherCode : $cash->code_money }}"
+                                id="input">
+
                             @error('code_money')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -346,7 +348,8 @@
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="name_money" class="form-control" disabled
-                                value="{{ $cash->name_money }}" id="input">
+                                value="{{ $cash->name_money && $cash->otherMoney ? $cash->otherMoney : $cash->name_money }}"
+                                id="input">
 
 
 
@@ -367,7 +370,8 @@
                         <div class="col-md-6">
 
                             <input type="text" name="budget" class="form-control" disabled
-                                value="{{ $cash->budget }}" id="input">
+                                value="{{ $cash->budget && $cash->otherBudget ? $cash->otherBudget : $cash->budget }}"
+                                id="input">
 
 
 

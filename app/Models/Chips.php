@@ -14,6 +14,9 @@ class Chips extends Model
         'name_money',
         'budget',
         'companies_id',
+        'otherCode',
+        'otherMoney',
+        'otherBudget',
     ];
 
     public function company()

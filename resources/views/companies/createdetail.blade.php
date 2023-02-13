@@ -246,7 +246,14 @@
                                 @foreach ($cashes_list as $cash)
                                     <option value="{{ $cash->code_money }}">{{ $cash->code_money }}</option>
                                 @endforeach
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
                             </select>
+
+                            <div id="otherCode" style="display:none;">
+                                <input type="text" name="otherCode" placeholder="โปรดระบุเพิ่มเติม"
+                                    class="form-control mt-2">
+                            </div>
+
 
                             @error('code_money')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -281,6 +288,11 @@
                             -->
                             </select>
 
+                            <div id="otherMoney" style="display:none;">
+                                <input type="text" name="otherMoney" placeholder="โปรดระบุเพิ่มเติม"
+                                    class="form-control mt-2">
+                            </div>
+
                             @error('name_money')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -292,22 +304,13 @@
                             <strong>ปีงบประมาณ</strong> <br>
                             <select name="budget" class="form-select" id="budget">
                                 <option value="">โปรดเลือกปีงบประมาณ</option>
-                                <!--
-                                <option value="2551">2551</option>
-                                <option value="2552">2552</option>
-                                <option value="2553">2553</option>
-                                <option value="2554">2554</option>
-                                <option value="2555">2555</option>
-                                <option value="2556">2556</option>
-                                <option value="2557">2557</option>
-                                <option value="2558">2558</option>
-                                <option value="2559">2559</option>
-                                <option value="2560">2560</option>
-                                <option value="2561">2561</option>
-                                <option value="2562">2562</option>
-                                <option value="2563">2563</option>
-                                -->
                             </select>
+
+                            <div id="otherForm" style="display:none;">
+                                <input type="text" name="otherBudget" placeholder="โปรดระบุเพิ่มเติม"
+                                    class="form-control mt-2">
+                            </div>
+
                             @error('budget')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -365,12 +368,33 @@
             $('#code_money').change(function() {
                 $('#name_money').val('');
                 $('#budget').val('');
+
+                if ($(this).val() === 'other') {
+                    $('#otherCode').show();
+                } else {
+                    $('#otherCode').hide();
+                }
+
+
             });
 
             $('#name_money').change(function() {
+                if ($(this).val() === 'other') {
+                    $('#otherMoney').show();
+                } else {
+                    $('#otherMoney').hide();
+                }
                 $('#budget').val('');
             });
 
+
+            $('#budget').change(function() {
+                if ($(this).val() === 'other') {
+                    $('#otherForm').show();
+                } else {
+                    $('#otherForm').hide();
+                }
+            });
 
         });
     </script>
@@ -412,6 +436,7 @@
             }
         });
     </script>
+
 
 </body>
 

@@ -37,6 +37,7 @@ class MoneyController extends Controller
         foreach ($data as $row) {
             $output .= '<option value="' . $row->$dependent . '">' . $row->$dependent . '</option>';
         }
+        $output .= '<option value="other">อื่น ๆ (โปรดระบุ)</option>';
         echo $output;
     }
 
@@ -84,20 +85,42 @@ class MoneyController extends Controller
         }
 
 
-
         if ($request->hasFile("cover")) {
             $file = $request->file("cover");
             $imageName = time() . '_' . $file->getClientOriginalName();
             $file->move(\public_path("cover/"), $imageName);
 
             $company = new Company;
+
+            //------------------------- เพิ่มข้อมูลตาราง Chips --------------
             $cash = new Chips;
 
             $cash->code_money = $request->input('code_money');
-            $cash->name_money = $request->input('name_money');
-            $cash->budget = $request->input('budget');
-            $cash->save();
+            if ($request->input('code_money') === 'other') {
+                $cash->otherCode = $request->input('otherCode');
+                $cash->code_money = 0;
+            } else {
+                $cash->otherCode = '';
+            }
 
+            $cash->name_money = $request->input('name_money');
+            if ($request->input('name_money') === 'other') {
+                $cash->otherMoney = $request->input('otherMoney');
+                $cash->name_money = 0;
+            } else {
+                $cash->otherMoney = '';
+            }
+
+            $cash->budget = $request->input('budget');
+            if ($request->input('budget') === 'other') {
+                $cash->otherBudget = $request->input('otherBudget');
+                $cash->budget = 0;
+            } else {
+                $cash->otherBudget = '';
+            }
+
+            $cash->save();
+            //------------------------------------------------------------------------------------------
             $company->num_asset = $request->input('num_asset');
             $company->date_into = $request->input('date_into');
             $company->name_asset = $request->input('name_asset');
