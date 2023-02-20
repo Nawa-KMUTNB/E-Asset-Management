@@ -76,13 +76,14 @@
                             <p><b>ชื่อ - สกุล ผู้นำเข้าคลัง</b> : {{ $company->name_info }} </p>
                             @foreach ($cashes as $cash)
                                 <p><b>เลขแหล่งเงิน</b> :
-                                    {{ $cash->code_money == 'other' && isset($cash->otherCode) ? $cash->otherCode : $cash->code_money }}
+                                    {{ $cash->code_money == '0' && isset($cash->otherCode) ? $cash->otherCode : $cash->code_money }}
+
                                 </p>
                                 <p><b>ชื่อแหล่งเงิน</b> :
-                                    {{ $cash->name_money == 'other' && isset($cash->otherMoney) ? $cash->otherMoney : $cash->name_money }}
+                                    {{ $cash->name_money == '0' && isset($cash->otherMoney) ? $cash->otherMoney : $cash->name_money }}
                                 </p>
                                 <p><b>ปีงบประมาณ</b> :
-                                    {{ $cash->budget == 'other' && isset($cash->otherBudget) ? $cash->otherBudget : $cash->budget }}
+                                    {{ $cash->budget == '0' && isset($cash->otherBudget) ? $cash->otherBudget : $cash->budget }}
                                 </p>
                             @endforeach
                         </div>

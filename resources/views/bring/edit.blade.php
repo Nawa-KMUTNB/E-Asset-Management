@@ -129,7 +129,6 @@
                                     @if ($brings->department == 'other' && isset($brings->other_department)) selected @endif>
                                     {{ $brings->department == 'other' && isset($brings->other_department) ? $brings->other_department : $brings->department }}
                                 </option>
-
                                 <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
                                 <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
                                 <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
@@ -154,6 +153,7 @@
                             <strong>เลขอัตรา (เลขประจำตำแหน่ง)</strong>
                             <input type="text" name="num_department" class="form-control"
                                 placeholder="เลขอัตรา (เลขประจำตำแหน่ง)" value="{{ $brings->num_department }}" />
+
                             @error('num_department')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror

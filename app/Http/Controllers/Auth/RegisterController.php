@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Null_;
 
 class RegisterController extends Controller
 {
@@ -74,6 +75,7 @@ class RegisterController extends Controller
             'num_position' => $data['num_position'],
             'position' => $data['position'],
             'department' => $data['department'],
+            'other_department' => $data['department'] === 'other' ? $data['other_department'] : 'other',
             'task' => $data['task'],
             'password' => Hash::make($data['password']),
             'is_admin' => '0'

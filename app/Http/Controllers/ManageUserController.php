@@ -6,6 +6,7 @@ use App\Http\Requests\CashUpdateRequest;
 use App\Models\User;
 use Doctrine\Inflector\Rules\Pattern;
 use Illuminate\Http\Request;
+use Validator;
 
 class ManageUserController extends Controller
 {
@@ -30,17 +31,33 @@ class ManageUserController extends Controller
             'email' => ['required', 'string', 'email'],
             'num_position' => ['required', 'string', 'regex:/^[0-9]{3,5}$/'],
             'position' => ['required', 'string', 'max:255'],
-            'department' => ['required', 'string', 'max:255'],
+            // 'department' => ['required', 'string', 'max:255'],
             'task' => ['required', 'string', 'max:255'],
             'is_admin' => ['required', 'numeric', 'regex:/^[0-1]{1}$/'],
         ]);
+
+        $validator = Validator::make($request->all(), [
+            'department' => 'required',
+            'other_department' => 'required_if:department,other',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
 
         $user = User::find($id);
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->num_position = $request->input('num_position');
         $user->position = $request->input('position');
+
         $user->department = $request->input('department');
+        $user->other_department = $request->input('other_department') ?: '';
+
+
         $user->task = $request->input('task');
         // $user->password = $request->password;
         $user->is_admin = $request->input('is_admin');

@@ -76,8 +76,27 @@
                     <div class="col-md-12">
                         <div class="form-group my-3">
                             <strong>ชื่อฝ่าย</strong>
-                            <input type="text" name="department" value="{{ $user->department }}"
-                                class="form-control" />
+                            {{-- <input type="text" name="department" value="{{ $user->department }}"
+                                class="form-control" /> --}}
+
+                            <select name="department" class="form-select" id="user_department">
+                                <option value="{{ $user->department }}"
+                                    @if ($user->department == 'other' && isset($user->other_department)) selected @endif>
+                                    {{ $user->department == 'other' && isset($user->other_department) ? $user->other_department : $user->department }}
+                                </option>
+                                <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
+                                <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
+                                <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
+                                <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
+                                <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
+
+                            </select>
+
+                            <input type="text" id="other_user_department" style="display: none;"
+                                class="form-control mt-2" placeholder="โปรดระบุเพิ่มเติม" name="other_department">
+
+
                             @error('department')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -113,9 +132,6 @@
                         </div>
                     </div>
 
-
-
-
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary mt-1"
                             style="margin-left:40%;height:50px;width:100px;font-size:22px">ยืนยัน</button>
@@ -126,6 +142,19 @@
 
         </div>
     </div>
+
+    <script>
+        document.getElementById('user_department').addEventListener('change', function() {
+            if (this.value === 'other') {
+                document.getElementById('other_user_department').style.display = 'block';
+            } else {
+                document.getElementById('other_user_department').style.display = 'none';
+            }
+        });
+    </script>
+
+
+
 </body>
 
 </html>

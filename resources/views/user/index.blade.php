@@ -49,7 +49,9 @@
                         <td>{{ $users->email }}</td>
                         <td>{{ $users->num_position }}</td>
                         <td>{{ $users->position }}</td>
-                        <td>{{ $users->department }}</td>
+                        <td>
+                            {{ $users->department == 'other' && isset($users->other_department) ? $users->other_department : $users->department }}
+                        </td>
                         <td>{{ $users->task }}</td>
                         <td>
                             <form action="{{ route('user.destroy', $users->id) }}" method="POST">

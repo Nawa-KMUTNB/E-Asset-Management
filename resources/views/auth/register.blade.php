@@ -96,10 +96,25 @@
                                         class="col-md-4 col-form-label text-md-end">{{ __('ชื่อฝ่าย') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="department" type="text"
+                                        {{-- <input id="department" type="text"
                                             class="form-control @error('department') is-invalid @enderror" name="department"
                                             value="{{ old('department') }}" required autocomplete="department" autofocus
-                                            placeholder="กรุณาใส่ชื่อฝ่าย">
+                                            placeholder="กรุณาใส่ชื่อฝ่าย"> --}}
+
+
+                                        <select name="department" class="form-select" id="regis_department">
+                                            <option selected>โปรดเลือกฝ่ายที่ครอบครองครุภัณฑ์</option>
+                                            <option value="สำนักงานผู้อำนวยการ">สำนักงานผู้อำนวยการ</option>
+                                            <option value="ศูนย์รับองสมรรถนะบุคคล">ศูนย์รับองสมรรถนะบุคคล</option>
+                                            <option value="ฝ่ายบริการวิชาการ">ฝ่ายบริการวิชาการ</option>
+                                            <option value="ฝ่ายพัฒนาระบบสารสนเทศ">ฝ่ายพัฒนาระบบสารสนเทศ</option>
+                                            <option value="ฝ่ายสื่อการเรียนการสอน">ฝ่ายสื่อการเรียนการสอน</option>
+                                            <option value="other">อื่น ๆ (โปรดระบุ)</option>
+                                        </select>
+
+                                        <input type="text" id="other_regis_department" style="display: none;"
+                                            class="form-control mt-2" placeholder="โปรดระบุเพิ่มเติม"
+                                            name="other_department">
 
                                         @error('department')
                                             <span class="invalid-feedback" role="alert">
@@ -172,6 +187,15 @@
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('regis_department').addEventListener('change', function() {
+                if (this.value === 'other') {
+                    document.getElementById('other_regis_department').style.display = 'block';
+                } else {
+                    document.getElementById('other_regis_department').style.display = 'none';
+                }
+            });
+        </script>
 
     </body>
 @endsection

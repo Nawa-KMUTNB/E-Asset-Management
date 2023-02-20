@@ -328,7 +328,7 @@
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="code_money" class="form-control" disabled
-                                value="{{ $cash->code_money && $cash->otherCode ? $cash->otherCode : $cash->code_money }}"
+                                value="{{ $cash->code_money == '0' && isset($cash->otherCode) ? $cash->otherCode : $cash->code_money }}"
                                 id="input">
 
                             @error('code_money')
@@ -348,7 +348,7 @@
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="name_money" class="form-control" disabled
-                                value="{{ $cash->name_money && $cash->otherMoney ? $cash->otherMoney : $cash->name_money }}"
+                                value="{{ $cash->name_money == '0' && isset($cash->otherMoney) ? $cash->otherMoney : $cash->name_money }}"
                                 id="input">
 
 
@@ -370,7 +370,7 @@
                         <div class="col-md-6">
 
                             <input type="text" name="budget" class="form-control" disabled
-                                value="{{ $cash->budget && $cash->otherBudget ? $cash->otherBudget : $cash->budget }}"
+                                value="{{ $cash->budget == '0' && isset($cash->otherBudget) ? $cash->otherBudget : $cash->budget }}"
                                 id="input">
 
 
@@ -386,11 +386,10 @@
                 <div class="col-md-12 text-center mt-1">
                     <button type="submit" class="btn mt-2" id="btn2">ยืนยัน</button>
                 </div>
-                <div>
-                    <a class="btn btn-outline-danger" href="{{ route('companies.index') }}"
-                        id="back">ย้อนกลับ</a>
-                </div>
             </form>
+            <div>
+                <a class="btn btn-outline-danger" href="{{ route('companies.index') }}" id="back">ย้อนกลับ</a>
+            </div>
 
         </div>
     </div>

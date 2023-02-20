@@ -25,7 +25,8 @@ class User extends Authenticatable
         'position',
         'department',
         'task',
-        'password'
+        'password',
+        'other_department'
 
     ];
 
